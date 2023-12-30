@@ -3,30 +3,70 @@ import { pool } from './db.js';
 import { PORT } from './config.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import path from 'path';
+import bcrypt from 'bcrypt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import path from 'path';
 
 const app = express();
 
-// Configuración para servir archivos estáticos desde la carpeta "views"
 app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Middleware para parsear el cuerpo de las solicitudes POST
+app.use(express.urlencoded({ extended: true }));
+
+// Ruta para la página de inicio de sesión
+app.get('/login', (req, res) => {
+  const loginPath = path.join(__dirname, 'views', 'login.html');
+  res.sendFile(loginPath);
+});
+
+// Ruta para manejar el registro de un nuevo usuario (POST)
+app.post('/register', async (req, res) => {
+  const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
+
+  // Hash de la contraseña antes de almacenarla en la base de datos
+  const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+  // Insertar el nuevo usuario en la base de datos
+  await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
+
+  res.send('Usuario registrado exitosamente');
+});
+
+// Ruta para manejar el inicio de sesión (POST)
+app.post('/login', async (req, res) => {
+  const { usuario, contrasena } = req.body;
+
+  // Buscar el usuario en la base de datos
+  const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
+
+  if (result.length > 0) {
+    // Verificar la contraseña utilizando bcrypt
+    const hashedPassword = result[0].contrasena;
+    const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
+
+    if (passwordMatch) {
+      // Si las credenciales son correctas, podrías redirigir a otra página o enviar un mensaje de éxito
+      res.send('Inicio de sesión exitoso');
+    } else {
+      // Si las credenciales son incorrectas, podrías redirigir a otra página o enviar un mensaje de error
+      res.send('Credenciales incorrectas');
+    }
+  } else {
+    // Si el usuario no existe, podrías redirigir a otra página o enviar un mensaje de error
+    res.send('Usuario no encontrado');
+  }
+});
+
+
 
 app.get('/', (req, res) => {
   const indexPath = path.join(__dirname, 'views', 'index.html');
   res.sendFile(indexPath);
 });
-
-app.get('/ping', async (req, res) => {
-  const [result] = await pool.query(`SELECT "hello world" as RESULT`);
-  res.json(result[0]);
-});
-
-// app.get('/create', async (req, res) => {
-//   const result = await pool.query('INSERT INTO test(name) VALUES ("John")');
-//   res.json(result);
-// });
 
 app.listen(PORT, () => {
   console.log('Server on port', PORT);
