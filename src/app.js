@@ -28,8 +28,13 @@ app.post('/register', async (req, res) => {
   try {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
 
-    // Imprime los datos del formulario para depurar
-    console.log('Datos del formulario:', req.body);
+    // Verificar si el correo ya está registrado
+    const cleanedEmail = correo.trim().toLowerCase();
+    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
+
+    if (existingUser.length > 0) {
+      return res.status(400).send('El correo ya está registrado');
+    }
 
     // Hash de la contraseña antes de almacenarla en la base de datos
     const hashedPassword = await bcrypt.hash(contrasena, 10);
@@ -45,9 +50,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
 // Ruta para manejar el inicio de sesión (POST)
-
 app.post('/login', async (req, res) => {
   try {
     const { usuario, contrasena } = req.body;
@@ -58,12 +61,6 @@ app.post('/login', async (req, res) => {
     if (result.length > 0) {
       // Verificar la contraseña utilizando bcrypt
       const hashedPassword = result[0].contrasena;
-
-      console.log('Datos del formulario:', {
-        usuario,
-        contrasena,
-        hashedPassword, // Agrega este log para verificar el valor de hashedPassword
-      });
 
       const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
@@ -94,5 +91,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log('Server on port', PORT);
 });
-
-
