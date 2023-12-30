@@ -24,17 +24,13 @@ app.get('/login', (req, res) => {
 });
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
+// Ruta para manejar el registro de un nuevo usuario (POST)
 app.post('/register', async (req, res) => {
   try {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
 
-    // Verificar si el correo ya está registrado
-    const cleanedEmail = correo.trim().toLowerCase();
-    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
-
-    if (existingUser.length > 0) {
-      return res.status(400).send('El correo ya está registrado');
-    }
+    // Imprime los datos del formulario para depurar
+    console.log('Datos del formulario:', req.body);
 
     // Hash de la contraseña antes de almacenarla en la base de datos
     const hashedPassword = await bcrypt.hash(contrasena, 10);
@@ -44,10 +40,12 @@ app.post('/register', async (req, res) => {
 
     res.send('Usuario registrado exitosamente');
   } catch (error) {
-    console.error(error);
+    // Imprime cualquier error que ocurra durante el proceso
+    console.error('Error en el registro:', error);
     res.status(500).send('Error interno del servidor');
   }
 });
+
 
 // Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
