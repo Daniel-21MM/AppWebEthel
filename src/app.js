@@ -63,7 +63,7 @@ app.post('/login', async (req, res) => {
     // Buscar el usuario en la base de datos
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
-    console.log('Datos del formulario:', req.body); // Agrega este log para verificar los datos del formulario
+    console.log('Datos del formulario:', req.body);
 
     if (result.length > 0) {
       // Verificar la contraseña utilizando bcrypt
@@ -72,21 +72,23 @@ app.post('/login', async (req, res) => {
       const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
       if (passwordMatch) {
-        // Si las credenciales son correctas, podrías redirigir a otra página o enviar un mensaje de éxito
-        res.send('Inicio de sesión exitoso');
+        // Si las credenciales son correctas, envía una respuesta JSON con un indicador de éxito
+        res.json({ success: true });
       } else {
-        // Si las credenciales son incorrectas, podrías redirigir a otra página o enviar un mensaje de error
-        res.send('Credenciales incorrectas');
+        // Si las credenciales son incorrectas, envía una respuesta JSON con un indicador de error
+        res.json({ success: false, message: 'Credenciales incorrectas' });
       }
     } else {
-      // Si el usuario no existe, podrías redirigir a otra página o enviar un mensaje de error
-      res.send('Usuario no encontrado');
+      // Si el usuario no existe, envía una respuesta JSON con un indicador de error
+      res.json({ success: false, message: 'Usuario no encontrado' });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error interno del servidor');
+    // Si hay un error interno del servidor, envía una respuesta JSON con un indicador de error
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
+
 
 
 // Ruta para la página principal
