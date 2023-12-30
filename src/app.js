@@ -54,39 +54,35 @@ app.post('/register', async (req, res) => {
 });
 
 
-
-// Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
   try {
     const { usuario, contrasena } = req.body;
-
-    // Buscar el usuario en la base de datos
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
     console.log('Datos del formulario:', req.body);
 
     if (result.length > 0) {
-      // Verificar la contraseña utilizando bcrypt
       const hashedPassword = result[0].contrasena;
-
       const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
       if (passwordMatch) {
-        // Si las credenciales son correctas, envía una respuesta JSON con un indicador de éxito
-        res.json({ success: true });
+        // Si las credenciales son correctas, redirigir a la página principal
+        res.redirect('/principal.html');
       } else {
-        // Si las credenciales son incorrectas, envía una respuesta JSON con un indicador de error
         res.json({ success: false, message: 'Credenciales incorrectas' });
       }
     } else {
-      // Si el usuario no existe, envía una respuesta JSON con un indicador de error
       res.json({ success: false, message: 'Usuario no encontrado' });
     }
   } catch (error) {
     console.error(error);
-    // Si hay un error interno del servidor, envía una respuesta JSON con un indicador de error
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
+});
+
+app.get('/principal.html', (req, res) => {
+  const indexPath = path.join(__dirname, 'views', 'principal.html');
+  res.sendFile(indexPath);
 });
 
 
