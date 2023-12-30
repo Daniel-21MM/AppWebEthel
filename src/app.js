@@ -24,17 +24,18 @@ app.get('/login', (req, res) => {
 });
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
+
 app.post('/register', async (req, res) => {
   try {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
 
     // Verificar si el correo ya está registrado
     const cleanedEmail = correo.trim().toLowerCase();
-    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
+    const [existingUser] = await pool.query('SELECT * FROM usuarios WHERE TRIM(correo) = TRIM(?)', [cleanedEmail]);
 
     console.log('Datos del formulario:', req.body);
 
-    if (existingUser && existingUser.length > 0) {
+    if (existingUser.length > 0) {
       console.log('Correo ya registrado:', existingUser);
       return res.status(400).send('El correo ya está registrado');
     }
@@ -51,6 +52,7 @@ app.post('/register', async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 });
+
 
 
 // Ruta para manejar el inicio de sesión (POST)
