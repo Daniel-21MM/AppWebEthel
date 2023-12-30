@@ -25,16 +25,29 @@ app.get('/login', (req, res) => {
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
 app.post('/register', async (req, res) => {
-  const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
+  try {
+    const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
 
-  // Hash de la contraseña antes de almacenarla en la base de datos
-  const hashedPassword = await bcrypt.hash(contrasena, 10);
+    // Verificar si el correo ya está registrado
+    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [correo]);
 
-  // Insertar el nuevo usuario en la base de datos
-  await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
+    if (existingUser.length > 0) {
+      return res.status(400).send('El correo ya está registrado');
+    }
 
-  res.send('Usuario registrado exitosamente');
+    // Hash de la contraseña antes de almacenarla en la base de datos
+    const hashedPassword = await bcrypt.hash(contrasena, 10);
+
+    // Insertar el nuevo usuario en la base de datos
+    await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
+
+    res.send('Usuario registrado exitosamente');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error interno del servidor');
+  }
 });
+
 
 // Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
