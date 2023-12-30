@@ -47,7 +47,7 @@ app.post('/register', async (req, res) => {
 
 
 // Ruta para manejar el inicio de sesión (POST)
-// Ruta para manejar el inicio de sesión (POST)
+
 app.post('/login', async (req, res) => {
   try {
     const { usuario, contrasena } = req.body;
