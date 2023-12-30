@@ -1,26 +1,23 @@
-import express, { json } from 'express';
-import { pool } from '../src/database/db.js';
-import { PORT } from '../src/settings/config.js';
+import express from 'express'
+import { pool } from './db.js'
+import {PORT} from './config.js'
 
-const app = express();
-// Base de datos creada
+const app = express()
 
 app.get('/', async (req, res) => {
-    const [rows] = await pool.query("SELECT * FROM test");
-    res.json(rows);
+  const [rows] = await pool.query('SELECT * FROM users')
+  res.json(rows)
 })
 
 app.get('/ping', async (req, res) => {
-    const [result] = await pool.query(`SELECT "hello world" as RESULT`);
-    console.log(result);
-    res.json(result[0]);
-});
+  const [result] = await pool.query(`SELECT "hello world" as RESULT`);
+  res.json(result[0])
+})
 
 app.get('/create', async (req, res) => {
-    const result = await pool.query('INSERT INTO test(name) VALUES ("Jonh")')
-    res.json(result);
-}
-)
+  const result = await pool.query('INSERT INTO users(name) VALUES ("John")')
+  res.json(result)
+})
 
 app.listen(PORT)
-console.log('Server on port ', PORT);
+console.log('Server on port', PORT)
