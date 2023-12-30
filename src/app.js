@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
 import bcrypt from 'bcrypt';
+import multer from 'multer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,6 +17,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware para parsear el cuerpo de las solicitudes POST
 app.use(express.urlencoded({ extended: true }));
+
+// Configuración de Multer
+const storage = multer.memoryStorage(); // Almacenar los datos en memoria
+const upload = multer({ storage: storage });
+
+// Middleware para parsear el cuerpo de las solicitudes POST
+app.use(upload.none());
 
 // Ruta para la página de inicio de sesión
 app.get('/login', (req, res) => {
