@@ -32,7 +32,10 @@ app.post('/register', async (req, res) => {
     const cleanedEmail = correo.trim().toLowerCase();
     const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
 
+    console.log('Datos del formulario:', req.body); // Agrega este log para verificar los datos del formulario
+
     if (existingUser.length > 0) {
+      console.log('Correo ya registrado:', existingUser); // Agrega este log para verificar el usuario existente
       return res.status(400).send('El correo ya está registrado');
     }
 
@@ -58,6 +61,8 @@ app.post('/login', async (req, res) => {
     // Buscar el usuario en la base de datos
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
+    console.log('Datos del formulario:', req.body); // Agrega este log para verificar los datos del formulario
+
     if (result.length > 0) {
       // Verificar la contraseña utilizando bcrypt
       const hashedPassword = result[0].contrasena;
@@ -80,6 +85,7 @@ app.post('/login', async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 });
+
 
 // Ruta para la página principal
 app.get('/', (req, res) => {
