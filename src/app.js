@@ -62,7 +62,7 @@ app.post('/register', async (req, res) => {
 });
 
 
-app.post('/login', async (req, res) => {
+app.post('/login', upload.none(), async (req, res) => {
   try {
     const { usuario, contrasena } = req.body;
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
@@ -87,6 +87,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
+
 
 app.get('/principal.html', (req, res) => {
   const indexPath = path.join(__dirname, 'views', 'principal.html');
