@@ -29,7 +29,10 @@ app.post('/register', async (req, res) => {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
 
     // Verificar si el correo ya está registrado
-    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [correo]);
+    const cleanedEmail = correo.trim().toLowerCase();
+    const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
+
+
 
     if (existingUser.length > 0) {
       return res.status(400).send('El correo ya está registrado');
