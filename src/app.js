@@ -24,7 +24,6 @@ app.get('/login', (req, res) => {
 });
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
-// Ruta para manejar el registro de un nuevo usuario (POST)
 app.post('/register', async (req, res) => {
   try {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
@@ -48,27 +47,40 @@ app.post('/register', async (req, res) => {
 
 
 // Ruta para manejar el inicio de sesión (POST)
+// Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
-  const { usuario, contrasena } = req.body;
+  try {
+    const { usuario, contrasena } = req.body;
 
-  // Buscar el usuario en la base de datos
-  const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
+    // Buscar el usuario en la base de datos
+    const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
-  if (result.length > 0) {
-    // Verificar la contraseña utilizando bcrypt
-    const hashedPassword = result[0].contrasena;
-    const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
+    if (result.length > 0) {
+      // Verificar la contraseña utilizando bcrypt
+      const hashedPassword = result[0].contrasena;
 
-    if (passwordMatch) {
-      // Si las credenciales son correctas, podrías redirigir a otra página o enviar un mensaje de éxito
-      res.send('Inicio de sesión exitoso');
+      console.log('Datos del formulario:', {
+        usuario,
+        contrasena,
+        hashedPassword, // Agrega este log para verificar el valor de hashedPassword
+      });
+
+      const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
+
+      if (passwordMatch) {
+        // Si las credenciales son correctas, podrías redirigir a otra página o enviar un mensaje de éxito
+        res.send('Inicio de sesión exitoso');
+      } else {
+        // Si las credenciales son incorrectas, podrías redirigir a otra página o enviar un mensaje de error
+        res.send('Credenciales incorrectas');
+      }
     } else {
-      // Si las credenciales son incorrectas, podrías redirigir a otra página o enviar un mensaje de error
-      res.send('Credenciales incorrectas');
+      // Si el usuario no existe, podrías redirigir a otra página o enviar un mensaje de error
+      res.send('Usuario no encontrado');
     }
-  } else {
-    // Si el usuario no existe, podrías redirigir a otra página o enviar un mensaje de error
-    res.send('Usuario no encontrado');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error interno del servidor');
   }
 });
 
