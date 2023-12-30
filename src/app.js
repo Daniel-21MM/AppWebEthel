@@ -3,7 +3,7 @@ import { pool } from '../src/database/db.js';
 import { PORT } from '../src/settings/config.js';
 
 const app = express();
-
+// Base de datos creada
 
 app.get('/', async (req, res) => {
     const [rows] = await pool.query("SELECT * FROM test");
