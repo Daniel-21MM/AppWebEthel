@@ -32,10 +32,10 @@ app.post('/register', async (req, res) => {
     const cleanedEmail = correo.trim().toLowerCase();
     const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
 
-    console.log('Datos del formulario:', req.body); // Agrega este log para verificar los datos del formulario
+    console.log('Datos del formulario:', req.body);
 
-    if (existingUser.length > 0) {
-      console.log('Correo ya registrado:', existingUser); // Agrega este log para verificar el usuario existente
+    if (existingUser && existingUser.length > 0) {
+      console.log('Correo ya registrado:', existingUser);
       return res.status(400).send('El correo ya está registrado');
     }
 
@@ -47,11 +47,11 @@ app.post('/register', async (req, res) => {
 
     res.send('Usuario registrado exitosamente');
   } catch (error) {
-    // Imprime cualquier error que ocurra durante el proceso
     console.error('Error en el registro:', error);
     res.status(500).send('Error interno del servidor');
   }
 });
+
 
 // Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
