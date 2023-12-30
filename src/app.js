@@ -32,8 +32,6 @@ app.post('/register', async (req, res) => {
     const cleanedEmail = correo.trim().toLowerCase();
     const existingUser = await pool.query('SELECT * FROM usuarios WHERE correo = ?', [cleanedEmail]);
 
-
-
     if (existingUser.length > 0) {
       return res.status(400).send('El correo ya está registrado');
     }
@@ -50,7 +48,6 @@ app.post('/register', async (req, res) => {
     res.status(500).send('Error interno del servidor');
   }
 });
-
 
 // Ruta para manejar el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
@@ -77,13 +74,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-
+// Ruta para la página principal
 app.get('/', (req, res) => {
   const indexPath = path.join(__dirname, 'views', 'index.html');
   res.sendFile(indexPath);
 });
 
+// Inicia el servidor
 app.listen(PORT, () => {
   console.log('Server on port', PORT);
 });
+
+
