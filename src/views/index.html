@@ -89,20 +89,22 @@
     </div>
 
     <script>
+        // Declarar modal fuera de la función
+        let modal = document.getElementById('modal');
+
         // Función para abrir el modal
         function openModal() {
-            let modal = document.getElementById('modal');
             modal.style.display = 'block';
         }
 
         // Función para cerrar el modal
         function closeModal() {
-            let modal = document.getElementById('modal');
             modal.style.display = 'none';
         }
 
         // Asociar el evento clic del botón para abrir el modal
         let btn = document.getElementById('open-btn');
+        btn.onclick = openModal;
 
         // Asociar el evento clic del botón "OK" para cerrar el modal
         let button = document.getElementById('ok-btn');
