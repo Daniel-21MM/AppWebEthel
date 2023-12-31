@@ -69,37 +69,44 @@
         loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
 
-            const formData = new FormData(loginForm);
+            const formData = new URLSearchParams(new FormData(loginForm));
 
-            const response = await fetch('/login', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const responseData = await response.json();
-
-            if (responseData.success) {
-                // Si el inicio de sesión fue exitoso, mostrar SweetAlert de bienvenida
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Bienvenido!',
-                    text: 'Inicio de sesión exitoso',
-                }).then(() => {
-                    // Redireccionar a la vista principal después de cerrar SweetAlert
-                    window.location.href = '/principal.html';
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString(),
                 });
-            } else {
-                // Si el inicio de sesión no fue exitoso, mostrar SweetAlert de error
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Credenciales incorrectas: ' + responseData.message,
-                });
+
+                const responseData = await response.json();
+
+                if (responseData.success) {
+                    // Si el inicio de sesión fue exitoso, mostrar SweetAlert de bienvenida
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Bienvenido!',
+                        text: 'Inicio de sesión exitoso',
+                    }).then(() => {
+                        // Redireccionar a la vista principal después de cerrar SweetAlert
+                        window.location.href = '/principal.html';
+                    });
+                } else {
+                    // Si el inicio de sesión no fue exitoso, mostrar SweetAlert de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Credenciales incorrectas: ' + responseData.message,
+                    });
+                }
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                // Manejar otros errores o mostrar un mensaje genérico al usuario
             }
         });
 
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
 
