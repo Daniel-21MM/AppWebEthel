@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
     const { usuario, contrasena } = req.body;
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
-    console.log('Datos del formulario:', req.body);
+    // console.log('Datos del formulario:', req.body);
 
     if (result.length > 0) {
       const hashedPassword = result[0].contrasena;
@@ -65,7 +65,7 @@ app.post('/login', async (req, res) => {
 
       if (passwordMatch) {
         // Si las credenciales son correctas, enviar una respuesta JSON con éxito y el nombre de usuario
-        res.json({ success: true, message: `Inicio de sesión exitoso. Bienvenido, ${result[0].usuario}!`, redirect: '/principal.html' });
+        res.json({ success: true, message: `.¡Bienvenido ${result[0].usuario}!`, redirect: '/principal.html' });
       } else {
         res.json({ success: false, message: 'Credenciales incorrectas' });
       }
