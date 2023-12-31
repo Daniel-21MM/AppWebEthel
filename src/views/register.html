@@ -9,9 +9,15 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome (optional, for icons) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-     <!-- Agrega estos enlaces en la sección head de tu HTML -->
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Agrega estos enlaces en la sección head de tu HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        .swal-button {
+            background-color: #4F4E65 !important;
+            /* Establece el color de fondo deseado */
+        }
+    </style>
 
 </head>
 
@@ -35,7 +41,8 @@
                         </div>
                     </div>
                     <div>
-                        <label for="contrasena" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                        <label for="contrasena"
+                            class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
                         <div class="mt-2">
                             <input id="contrasena" name="contrasena" type="password" autocomplete="off" required
                                 class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -53,8 +60,7 @@
                         <label for="correo" class="block text-sm font-medium leading-6 text-gray-900">Correo
                             electronico</label>
                         <div class="mt-2">
-                            <input id="correo" name="correo" type="email" autocomplete="off"
-                                required
+                            <input id="correo" name="correo" type="email" autocomplete="off" required
                                 class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                     </div>
@@ -87,12 +93,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const registerForm = document.getElementById('register-form');
-        
+
             registerForm.addEventListener('submit', async function (event) {
                 event.preventDefault();
-        
+
                 const formData = new URLSearchParams(new FormData(registerForm));
-        
+
                 try {
                     const response = await fetch('/register', {
                         method: 'POST',
@@ -101,9 +107,9 @@
                         },
                         body: formData.toString(),
                     });
-        
+
                     const responseData = await response.json();
-        
+
                     if (responseData.success) {
                         // Mostrar SweetAlert de registro exitoso con el nombre de usuario
                         Swal.fire({
@@ -127,8 +133,8 @@
             });
         });
     </script>
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+
 </body>
 
 </html>
