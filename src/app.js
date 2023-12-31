@@ -64,8 +64,8 @@ app.post('/login', async (req, res) => {
       const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
       if (passwordMatch) {
-        // Si las credenciales son correctas, redirigir a la página principal
-        res.redirect('/principal.html');
+        // Si las credenciales son correctas, enviar una respuesta JSON indicando éxito
+        res.json({ success: true, message: 'Inicio de sesión exitoso', redirect: '/principal.html' });
       } else {
         res.json({ success: false, message: 'Credenciales incorrectas' });
       }
@@ -77,6 +77,7 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
+
 
 // Ruta para la página principal
 app.get('/principal.html', (req, res) => {

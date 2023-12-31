@@ -65,12 +65,12 @@
 
     <script>
         const loginForm = document.getElementById('login-form');
-
+    
         loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
-
+    
             const formData = new URLSearchParams(new FormData(loginForm));
-
+    
             try {
                 const response = await fetch('/login', {
                     method: 'POST',
@@ -79,25 +79,26 @@
                     },
                     body: formData.toString(),
                 });
-
+    
                 const responseData = await response.json();
-
+    
                 if (responseData.success) {
-                    // Si el inicio de sesión fue exitoso, mostrar SweetAlert de bienvenida
+                    // Mostrar SweetAlert de inicio de sesión exitoso
                     Swal.fire({
                         icon: 'success',
                         title: '¡Bienvenido!',
                         text: 'Inicio de sesión exitoso',
+                        confirmButtonText: 'OK',
                     }).then(() => {
-                        // Redireccionar a la vista principal después de cerrar SweetAlert
-                        window.location.href = '/principal.html';
+                        // Redireccionar a la vista principal después de hacer clic en OK
+                        window.location.href = responseData.redirect || '/principal.html';
                     });
                 } else {
                     // Si el inicio de sesión no fue exitoso, mostrar SweetAlert de error
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Credenciales incorrectas: ' + responseData.message,
+                        text: 'Credenciales incorrectas:',
                     });
                 }
             } catch (error) {
@@ -105,8 +106,8 @@
                 // Manejar otros errores o mostrar un mensaje genérico al usuario
             }
         });
-
     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
 
