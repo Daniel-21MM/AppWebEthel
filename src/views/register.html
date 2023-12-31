@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
-        .swal-button {
-            background-color: #4F4E65 !important;
-            /* Establece el color de fondo deseado */
+        /* Estilo personalizado para los botones de SweetAlert */
+        .custom-swal-button-class {
+            background-color: #7046c9 !important;
+            color: #ffffff !important;
         }
     </style>
 
@@ -110,6 +111,13 @@
 
                     const responseData = await response.json();
 
+                    // Configuración global de SweetAlert con clase personalizada
+                    const swalConfig = {
+                        customClass: {
+                            confirmButton: 'custom-swal-button-class',
+                        },
+                    };
+
                     if (responseData.success) {
                         // Mostrar SweetAlert de registro exitoso con el nombre de usuario
                         Swal.fire({
@@ -117,6 +125,7 @@
                             title: '¡Registro exitoso!',
                             text: responseData.message,
                             confirmButtonText: 'OK',
+                            ...swalConfig,
                         });
                     } else {
                         // Si el registro no fue exitoso, mostrar SweetAlert de error
@@ -124,6 +133,7 @@
                             icon: 'error',
                             title: '¡Error!',
                             text: responseData.message,
+                            ...swalConfig,
                         });
                     }
                 } catch (error) {
@@ -132,6 +142,7 @@
                 }
             });
         });
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
