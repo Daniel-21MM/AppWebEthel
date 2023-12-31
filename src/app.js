@@ -44,12 +44,14 @@ app.post('/register', async (req, res) => {
     // Insertar el nuevo usuario en la base de datos
     await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
 
+    // Enviar una respuesta JSON indicando éxito sin redirección
     res.json({ success: true, message: `¡Bienvenido, ${usuario}!` });
   } catch (error) {
     console.error('Error en el registro:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
+
 
 
 
