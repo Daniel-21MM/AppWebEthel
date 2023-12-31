@@ -35,7 +35,7 @@ app.post('/register', async (req, res) => {
 
     if (existingUser.length > 0) {
       console.log('Correo ya registrado:', existingUser);
-      return res.status(400).send('El correo ya está registrado');
+      return res.status(400).json({ success: false, message: 'El correo ya está registrado' });
     }
 
     // Hash de la contraseña antes de almacenarla en la base de datos
@@ -44,12 +44,14 @@ app.post('/register', async (req, res) => {
     // Insertar el nuevo usuario en la base de datos
     await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
 
-    res.send('Usuario registrado exitosamente');
+    res.json({ success: true, message: `¡Bienvenido, ${usuario}!` });
   } catch (error) {
     console.error('Error en el registro:', error);
-    res.status(500).send('Error interno del servidor');
+    res.status(500).json({ success: false, message: 'Error interno del servidor' });
   }
 });
+
+
 
 // Ruta para el inicio de sesión (POST)
 app.post('/login', async (req, res) => {
@@ -65,7 +67,7 @@ app.post('/login', async (req, res) => {
 
       if (passwordMatch) {
         // Si las credenciales son correctas, enviar una respuesta JSON con éxito y el nombre de usuario
-        res.json({ success: true, message: `.¡Bienvenido ${result[0].usuario}!`, redirect: '/principal.html' });
+        res.json({ success: true, message: `¡Bienvenido ${result[0].usuario}!`, redirect: '/principal.html' });
       } else {
         res.json({ success: false, message: 'Credenciales incorrectas' });
       }

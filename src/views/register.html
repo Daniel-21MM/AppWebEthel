@@ -55,9 +55,6 @@
                                 class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                     </div>
-
-
-
                     <div class="sm:col-span-2">
                         <label for="rol" class="block text-sm font-medium leading-6 text-gray-900">Rol</label>
                         <div class="mt-2">
@@ -82,9 +79,50 @@
                     sesión</a>
             </p>
         </div>
-
-
     </div>
+
+    <script>
+        const registerForm = document.getElementById('register-form');
+    
+        registerForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+    
+            const formData = new URLSearchParams(new FormData(registerForm));
+    
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString(),
+                });
+    
+                const responseData = await response.json();
+    
+                if (responseData.success) {
+                    // Mostrar SweetAlert de registro exitoso con el nombre de usuario
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Registro exitoso!',
+                        text: responseData.message,
+                        confirmButtonText: 'OK',
+                    });
+                } else {
+                    // Si el registro no fue exitoso, mostrar SweetAlert de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: responseData.message,
+                    });
+                }
+            } catch (error) {
+                console.error('Error al enviar la solicitud:', error);
+                // Manejar otros errores o mostrar un mensaje genérico al usuario
+            }
+        });
+    </script>
+    
 </body>
 
 </html>
