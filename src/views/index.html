@@ -83,11 +83,11 @@
                 const responseData = await response.json();
     
                 if (responseData.success) {
-                    // Mostrar SweetAlert de inicio de sesión exitoso
+                    // Mostrar SweetAlert de inicio de sesión exitoso con el nombre de usuario
                     Swal.fire({
                         icon: 'success',
                         title: '¡Bienvenido!',
-                        text: 'Inicio de sesión exitoso',
+                        text: responseData.message,
                         confirmButtonText: 'OK',
                     }).then(() => {
                         // Redireccionar a la vista principal después de hacer clic en OK
@@ -97,8 +97,8 @@
                     // Si el inicio de sesión no fue exitoso, mostrar SweetAlert de error
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: 'Credenciales incorrectas:',
+                        title: '¡Error!',
+                        text: '¡Usuario o contraseña incorrecta!',
                     });
                 }
             } catch (error) {

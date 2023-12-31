@@ -64,8 +64,8 @@ app.post('/login', async (req, res) => {
       const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
       if (passwordMatch) {
-        // Si las credenciales son correctas, enviar una respuesta JSON indicando éxito
-        res.json({ success: true, message: 'Inicio de sesión exitoso', redirect: '/principal.html' });
+        // Si las credenciales son correctas, enviar una respuesta JSON con éxito y el nombre de usuario
+        res.json({ success: true, message: `Inicio de sesión exitoso. Bienvenido, ${result[0].usuario}!`, redirect: '/principal.html' });
       } else {
         res.json({ success: false, message: 'Credenciales incorrectas' });
       }
