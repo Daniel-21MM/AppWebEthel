@@ -31,11 +31,11 @@ app.post('/register', async (req, res) => {
     const cleanedEmail = correo.trim().toLowerCase();
     const [existingUser] = await pool.query('SELECT * FROM usuarios WHERE TRIM(correo) = TRIM(?)', [cleanedEmail]);
 
-    console.log('Datos del formulario:', req.body);
+    // console.log('Datos del formulario:', req.body);
 
     if (existingUser.length > 0) {
       console.log('Correo ya registrado:', existingUser);
-      return res.status(400).json({ success: false, message: 'El correo ya está registrado' });
+      return res.status(400).json({ success: false, message: '¡El correo ya está registrado!' });
     }
 
     // Hash de la contraseña antes de almacenarla en la base de datos
@@ -45,7 +45,7 @@ app.post('/register', async (req, res) => {
     await pool.query('INSERT INTO usuarios (usuario, contrasena, nombreCompleto, correo, rol) VALUES (?, ?, ?, ?, ?)', [usuario, hashedPassword, nombreCompleto, correo, rol]);
 
     // Enviar una respuesta JSON indicando éxito sin redirección
-    res.json({ success: true, message: `¡Bienvenido, ${usuario}!` });
+    res.json({ success: true, message: `¡Bienvenido ${usuario}!` });
   } catch (error) {
     console.error('Error en el registro:', error);
     res.status(500).json({ success: false, message: 'Error interno del servidor' });
