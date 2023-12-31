@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
-        .swal-button {
-            background-color: #4F4E65 !important;
-            /* Establece el color de fondo deseado */
+        /* Estilo personalizado para los botones de SweetAlert */
+        .custom-swal-button-class {
+            background-color: #4F46E5 !important;
+            color: #ffffff !important;
         }
     </style>
 </head>
@@ -70,12 +71,12 @@
 
     <script>
         const loginForm = document.getElementById('login-form');
-    
+
         loginForm.addEventListener('submit', async function (event) {
             event.preventDefault();
-    
+
             const formData = new URLSearchParams(new FormData(loginForm));
-    
+
             try {
                 const response = await fetch('/login', {
                     method: 'POST',
@@ -84,9 +85,16 @@
                     },
                     body: formData.toString(),
                 });
-    
+
                 const responseData = await response.json();
-    
+
+                // Configuración global de SweetAlert con clase personalizada
+                const swalConfig = {
+                    customClass: {
+                        confirmButton: 'custom-swal-button-class',
+                    },
+                };
+
                 if (responseData.success) {
                     // Mostrar SweetAlert de inicio de sesión exitoso con el nombre de usuario
                     Swal.fire({
@@ -94,6 +102,7 @@
                         title: '¡Inicio de sesión exitoso!',
                         text: responseData.message,
                         confirmButtonText: 'OK',
+                        ...swalConfig,
                     }).then(() => {
                         // Redireccionar a la vista principal después de hacer clic en OK
                         window.location.href = responseData.redirect || '/principal.html';
@@ -104,6 +113,7 @@
                         icon: 'error',
                         title: '¡Error!',
                         text: '¡Usuario o contraseña incorrecta!',
+                        ...swalConfig,
                     });
                 }
             } catch (error) {
@@ -111,8 +121,9 @@
                 // Manejar otros errores o mostrar un mensaje genérico al usuario
             }
         });
+
     </script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
 
