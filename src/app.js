@@ -5,7 +5,6 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
 import bcrypt from 'bcrypt';
-import multer from 'multer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,16 +13,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware para parsear el cuerpo de las solicitudes POST
-app.use(express.urlencoded({ extended: true }));
-
-// Configuración de Multer
-const storage = multer.memoryStorage(); // Almacenar los datos en memoria
-const upload = multer({ storage: storage });
-
-// Middleware para parsear el cuerpo de las solicitudes POST
-app.use(upload.none());
+app.use(express.urlencoded({ extended: true })); // Parsear datos de formulario
 
 // Ruta para la página de inicio de sesión
 app.get('/login', (req, res) => {
@@ -32,7 +22,6 @@ app.get('/login', (req, res) => {
 });
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
-
 app.post('/register', async (req, res) => {
   try {
     const { usuario, contrasena, nombreCompleto, correo, rol } = req.body;
@@ -61,8 +50,8 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
-app.post('/login', upload.none(), async (req, res) => {
+// Ruta para el inicio de sesión (POST)
+app.post('/login', async (req, res) => {
   try {
     const { usuario, contrasena } = req.body;
     const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
@@ -88,13 +77,11 @@ app.post('/login', upload.none(), async (req, res) => {
   }
 });
 
-
+// Ruta para la página principal
 app.get('/principal.html', (req, res) => {
   const indexPath = path.join(__dirname, 'views', 'principal.html');
   res.sendFile(indexPath);
 });
-
-
 
 // Ruta para la página principal
 app.get('/', (req, res) => {
