@@ -17,6 +17,8 @@
         <title>Tailwind CSS Example</title>
         <!-- Incluye los estilos de Tailwind CSS a través de CDN -->
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <!-- Otras etiquetas head... -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     </head>
 
     <body class="bg-gray-900 text-white">
@@ -24,8 +26,8 @@
         <!-- component -->
 
         <div
-            class="bg-gray-800 flex-1 flex flex-col space-y-5 lg:space-y-0 lg:flex-row lg:space-x-10 max-w-6xl sm:p-6 sm:my-2 sm:mx-4 sm:rounded-2xl h-full">
-            
+            class="bg-gray-800 flex-1 flex flex-col space-y-5 lg:space-y-0 lg:flex-row lg:space-x-10 w-full h-full max-w-6xl sm:p-6 sm:my-2 sm:mx-4 sm:rounded-2xl">
+
             <!-- Navigation -->
             <div class="bg-gray-900 px-2 lg:px-4 py-2 lg:py-10 sm:rounded-xl flex lg:flex-col justify-between">
                 <nav class="flex items-center flex-row space-x-2 lg:space-x-0 lg:flex-col lg:space-y-2">
@@ -37,7 +39,7 @@
                                 d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                         </svg>
                     </a>
-                 
+
                     <a class="text-white p-4 inline-flex justify-center rounded-md hover:bg-gray-800 hover:text-white smooth-hover"
                         href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 20 20"
@@ -94,9 +96,8 @@
                 </div>
 
                 <div class="mb-10 sm:mb-0 mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    
-                    <div
-                        class="group bg-gray-900/30 py-20 px-4 flex flex-col space-y-2 items-center  rounded-md">
+
+                    <div class="group bg-gray-900/30 py-20 px-4 flex flex-col space-y-2 items-center  rounded-md">
                         <a class="bg-gray-900 text-white group-hover:text-white  flex w-20 h-20 rounded-full items-center justify-center"
                             href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
@@ -105,24 +106,10 @@
                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
                         </a>
-                        <a class="text-white text-center"
-                            href="#">Agregar Curso</a>
-                    </div>
-                  
-                    <div
-                        class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
-                        <img class="w-20 h-20 object-cover object-center rounded-full"
-                            src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
-                            alt="cuisine" />
-                        <h4 class="text-white text-2xl font-bold capitalize text-center">JavaScript</h4>
-                        <p class="text-white">20 Horas</p>
-                        <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
-                                class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
-                        </p>
+                        <a class="text-white text-center" href="#">Agregar Curso</a>
                     </div>
 
-                    <div
-                        class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+                    <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
                         <img class="w-20 h-20 object-cover object-center rounded-full"
                             src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
                             alt="cuisine" />
@@ -131,9 +118,29 @@
                         <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
                                 class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
                         </p>
+                    
+                        <!-- Botones con iconos en dos filas -->
+                        <div class="flex flex-col space-y-2 mt-4">
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-file-pdf"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-pencil-alt"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-trash-alt"></i> 
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div
-                        class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+                    
+                    <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
                         <img class="w-20 h-20 object-cover object-center rounded-full"
                             src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
                             alt="cuisine" />
@@ -142,10 +149,61 @@
                         <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
                                 class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
                         </p>
+                    
+                        <!-- Botones con iconos en dos filas -->
+                        <div class="flex flex-col space-y-2 mt-4">
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-file-pdf"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-pencil-alt"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-trash-alt"></i> 
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                  
 
-                   
+                    <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+                        <img class="w-20 h-20 object-cover object-center rounded-full"
+                            src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
+                            alt="cuisine" />
+                        <h4 class="text-white text-2xl font-bold capitalize text-center">JavaScript</h4>
+                        <p class="text-white">20 Horas</p>
+                        <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
+                                class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
+                        </p>
+                    
+                        <!-- Botones con iconos en dos filas -->
+                        <div class="flex flex-col space-y-2 mt-4">
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-file-pdf"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-eye"></i> 
+                                </button>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-pencil-alt"></i> 
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-trash-alt"></i> 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                 
                 </div>
             </div>
         </div>
