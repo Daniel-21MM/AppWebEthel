@@ -13,62 +13,67 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
-        /* Estilo personalizado para los botones de SweetAlert */
-        .custom-swal-button-class {
+        .swal2-popup {
+            background-color: #111827 !important;
+            color: #ffffff;
+        }
+
+        .swal2-confirm {
             background-color: #4F46E5 !important;
-            color: #ffffff !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .swal2-title,
+        .swal2-content {
+            color: white !important;
         }
     </style>
 </head>
 
-<body>
+<body class="bg-gray-900 text-white">
 
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 text-white">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company">
-            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Inicia sesión con tu
-                cuenta</h2>
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Inicia sesión con tu cuenta</h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form id="login-form" class="space-y-6" action="/login" method="POST">
                 <div>
-                    <label for="usuario" class="block text-sm font-medium leading-6 text-gray-900">Nombre de
-                        usuario</label>
+                    <label for="usuario" class="block text-sm font-medium leading-6">Nombre de usuario</label>
                     <div class="mt-2">
                         <input id="usuario" name="usuario" type="text" autocomplete="off" required
-                            class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-
+                            class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                     </div>
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between">
-                        <label for="password"
-                            class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                        <label for="password" class="block text-sm font-medium leading-6">Contraseña</label>
                     </div>
                     <div class="mt-2">
                         <input id="contrasena" name="contrasena" type="password" autocomplete="off" required
-                            class="block w-full rounded-md border-0 py-1.5 pl-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            class="block w-full rounded-md border-0 py-1.5 pl-4 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                     </div>
                 </div>
 
                 <div>
                     <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Iniciar
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Iniciar
                         sesión</button>
                 </div>
             </form>
 
-            <p class="mt-10 text-center text-sm text-gray-500">
+            <p class="mt-10 text-center text-sm">
                 ¿No tienes cuenta?
                 <a href="register.html"
                     class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrarme ahora</a>
             </p>
         </div>
     </div>
-
     <script>
         const loginForm = document.getElementById('login-form');
 
@@ -88,13 +93,6 @@
 
                 const responseData = await response.json();
 
-                // Configuración global de SweetAlert con clase personalizada
-                const swalConfig = {
-                    customClass: {
-                        confirmButton: 'custom-swal-button-class',
-                    },
-                };
-
                 if (responseData.success) {
                     // Mostrar SweetAlert de inicio de sesión exitoso con el nombre de usuario
                     Swal.fire({
@@ -102,7 +100,6 @@
                         title: '¡Inicio de sesión exitoso!',
                         text: responseData.message,
                         confirmButtonText: 'OK',
-                        ...swalConfig,
                     }).then(() => {
                         // Redireccionar a la vista principal después de hacer clic en OK
                         window.location.href = responseData.redirect || '/principal.html';
@@ -112,8 +109,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: '¡Error!',
-                        text: '¡Usuario o contraseña incorrecta!',
-                        ...swalConfig,
+                        text: '¡Usuario o contraseña incorrecta!'
                     });
                 }
             } catch (error) {
@@ -121,9 +117,7 @@
                 // Manejar otros errores o mostrar un mensaje genérico al usuario
             }
         });
-
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
 

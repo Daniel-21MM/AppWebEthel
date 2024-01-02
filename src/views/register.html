@@ -13,63 +13,70 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <style>
-        /* Estilo personalizado para los botones de SweetAlert */
-        .custom-swal-button-class {
+        .swal2-popup {
+            background-color: #111827 !important;
+            color: #ffffff;
+        }
+
+        .swal2-confirm {
             background-color: #4F46E5 !important;
-            color: #ffffff !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .swal2-title,
+        .swal2-content {
+            color: white !important;
         }
     </style>
 
 </head>
 
-<body>
+<body class="bg-gray-900 text-white">
+    <!-- Contenido de tu aplicación aquí -->
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt="Your Company">
-            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Registrate con tus
-                datos</h2>
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">Regístrate con tus datos</h2>
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
             <form class="space-y-6" id="register-form" action="/register" method="POST">
                 <div class="sm:grid sm:grid-cols-2 sm:gap-4">
                     <div>
-                        <label for="usuario" class="block text-sm font-medium leading-6 text-gray-900">Usuario</label>
+                        <label for="usuario" class="block text-sm font-medium leading-6">Usuario</label>
                         <div class="mt-2">
                             <input id="usuario" name="usuario" type="text" autocomplete="off" required
-                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div>
-                        <label for="contrasena"
-                            class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                        <label for="contrasena" class="block text-sm font-medium leading-6">Contraseña</label>
                         <div class="mt-2">
                             <input id="contrasena" name="contrasena" type="password" autocomplete="off" required
-                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div>
-                        <label for="nombreCompleto" class="block text-sm font-medium leading-6 text-gray-900">Nombre
-                            completo</label>
+                        <label for="nombreCompleto" class="block text-sm font-medium leading-6">Nombre completo</label>
                         <div class="mt-2">
                             <input id="nombreCompleto" name="nombreCompleto" type="text" autocomplete="off" required
-                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div>
-                        <label for="correo" class="block text-sm font-medium leading-6 text-gray-900">Correo
-                            electronico</label>
+                        <label for="correo" class="block text-sm font-medium leading-6">Correo electrónico</label>
                         <div class="mt-2">
                             <input id="correo" name="correo" type="email" autocomplete="off" required
-                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                         </div>
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="rol" class="block text-sm font-medium leading-6 text-gray-900">Rol</label>
+                        <label for="rol" class="block text-sm font-medium leading-6">Rol</label>
                         <div class="mt-2">
                             <select id="rol" name="rol" required
-                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                                 <option value="estudiante">Estudiante</option>
                                 <option value="instructor">Instructor</option>
                                 <option value="maestro">Maestro</option>
@@ -79,11 +86,11 @@
                 </div>
                 <div>
                     <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Regístrame</button>
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Regístrame</button>
                 </div>
             </form>
 
-            <p class="mt-10 text-center text-sm text-gray-500">
+            <p class="mt-10 text-center text-sm text-white">
                 ¿Ya tienes una cuenta?
                 <a href="index.html" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Iniciar
                     sesión</a>
