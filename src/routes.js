@@ -90,7 +90,6 @@ router.post('/guardarCurso', (req, res) => {
 
         // Obtener el contenido del archivo directamente desde la solicitud
         const documentContent = archivoCurso;
-
         console.log('Datos del formulario:', req.body);
 
         if (!documentContent) {

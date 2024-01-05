@@ -9,6 +9,23 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Otras etiquetas head... -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .swal2-popup {
+            background-color: #111827 !important;
+            color: #ffffff;
+        }
+
+        .swal2-confirm {
+            background-color: #4F46E5 !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .swal2-title,
+        .swal2-content {
+            color: white !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -24,8 +41,8 @@
                     <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
                         Nombre del Curso:
                     </label>
-                    <input id="nombreCurso" name="nombreCurso" type="text" autocomplete="off" required
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
+                    <input id="nombreCurso" name="nombreCurso" type="text" autocomplete="off"
+                        class="w-full rounded-md border-2 border-gray-800 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6 required">
                 </div>
 
                 <!-- Tipo de Curso -->
@@ -46,7 +63,7 @@
                     <label class="block text-white text-sm font-bold mb-2" for="duracionCurso">
                         Duración del Curso:
                     </label>
-                    <input id="duracionCurso" name="duracionCurso" type="text" autocomplete="off"
+                    <input id="duracionCurso" name="duracionCurso" type="text" autocomplete="off" required
                         class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                 </div>
 
@@ -55,7 +72,7 @@
                     <label class="block text-white text-sm font-bold mb-2" for="fechaInicio">
                         Fecha de Inicio:
                     </label>
-                    <input id="fechaInicio" name="fechaInicio" type="date" autocomplete="off"
+                    <input id="fechaInicio" name="fechaInicio" type="date" autocomplete="off" required
                         class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                 </div>
 
@@ -90,10 +107,11 @@
                 </div>
 
                 <!-- Botón para Aceptar -->
-                <button type="submit"
+                <button type="submit" onclick="mostrarConfirmacion()"
                     class="col-span-6 sm:col-span-3 mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Aceptar
                 </button>
+
 
                 <!-- Botón para cerrar el modal -->
                 <button type="button" onclick="cerrarModal()"
@@ -101,9 +119,6 @@
                     Cerrar
                 </button>
             </form>
-
-
-
         </div>
     </div>
 
@@ -281,17 +296,53 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+
+    <!-- EJS Script para manejar SweetAlert -->
+    <script>
+        function mostrarConfirmacion() {
+            Swal.fire({
+                title: '¿Estás seguro de guardar este curso?',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, guardar',
+                cancelButtonText: 'Cancelar',
+                icon: 'question',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si hacen clic en "Sí, guardar", enviar el formulario
+                    document.getElementById('cursoForm').submit();
+                }
+            });
+        }
+
+    <% if (typeof success !== 'undefined') { %>
+            // Código para manejar la respuesta después de enviar el formulario
+            Swal.fire({
+                icon: '<%= success ? "success" : "error" %>',
+                title: '<%= success ? "¡Curso guardado correctamente!" : "Error al guardar el curso" %>',
+                text: '<%= message %>',
+                confirmButtonText: 'OK',
+            }).then(() => {
+            <% if (success) { %>
+                    // Redireccionar a la vista principal después de hacer clic en OK
+                    window.location.href = '<%= redirect || "/principal" %>';
+            <% } %>
+        });
+    <% } %>
+    </script>
 
     <script>
-        // Función para abrir el modal
-        function abrirModal() {
-            document.getElementById('modal').classList.remove('hidden');
-        }
+            // Función para abrir el modal
+            function abrirModal() {
+                document.getElementById('modal').classList.remove('hidden');
+            }
 
         // Función para cerrar el modal
         function cerrarModal() {
             document.getElementById('modal').classList.add('hidden');
         }
+
+
     </script>
 
 </body>
