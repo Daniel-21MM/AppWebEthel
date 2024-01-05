@@ -30,9 +30,9 @@
         }
     </style>
 </head>
+<!-- login.ejs -->
 
 <body class="bg-gray-900 text-white">
-
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 text-white">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -41,7 +41,7 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form id="login-form" class="space-y-6" action="/login" method="POST">
+            <form class="space-y-6" action="/login" method="POST">
                 <div>
                     <label for="usuario" class="block text-sm font-medium leading-6">Nombre de usuario</label>
                     <div class="mt-2">
@@ -69,56 +69,36 @@
 
             <p class="mt-10 text-center text-sm">
                 ¿No tienes cuenta?
-                <a href="register.html"
-                    class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrarme ahora</a>
+                <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrarme ahora</a>
+
             </p>
         </div>
     </div>
+
+    <!-- EJS Script para manejar SweetAlert -->
     <script>
-        const loginForm = document.getElementById('login-form');
-
-        loginForm.addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            const formData = new URLSearchParams(new FormData(loginForm));
-
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: formData.toString(),
-                });
-
-                const responseData = await response.json();
-
-                if (responseData.success) {
-                    // Mostrar SweetAlert de inicio de sesión exitoso con el nombre de usuario
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Inicio de sesión exitoso!',
-                        text: responseData.message,
-                        confirmButtonText: 'OK',
-                    }).then(() => {
-                        // Redireccionar a la vista principal después de hacer clic en OK
-                        window.location.href = responseData.redirect || '/principal.html';
-                    });
-                } else {
-                    // Si el inicio de sesión no fue exitoso, mostrar SweetAlert de error
-                    Swal.fire({
-                        icon: 'error',
-                        title: '¡Error!',
-                        text: '¡Usuario o contraseña incorrecta!'
-                    });
-                }
-            } catch (error) {
-                console.error('Error al enviar la solicitud:', error);
-                // Manejar otros errores o mostrar un mensaje genérico al usuario
-            }
-        });
+        <% if (typeof success !== 'undefined' && success) { %>
+            // Código para éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Inicio de sesión exitoso!',
+                text: '<%= message %>',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                // Redireccionar a la vista principal después de hacer clic en OK
+                window.location.href = '<%= redirect || "/principal" %>';
+            });
+        <% } else if (typeof success !== 'undefined' && !success) { %>
+            // Código para error
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: '<%= message %>'
+            });
+        <% } %>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
+
 
 </html>

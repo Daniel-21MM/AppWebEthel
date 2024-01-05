@@ -1,4 +1,3 @@
-// passwordUtils.js
 import bcrypt from 'bcrypt';
 
 export async function hashPassword(password) {

@@ -18,7 +18,7 @@
         <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md"
             style="width: 50%">
             <!-- Contenido del formulario -->
-            <form class="grid grid-cols-6 gap-4" enctype="multipart/form-data" action="/guardarCurso" method="post">
+            <form class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post">
                 <!-- Nombre del Curso -->
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
@@ -278,35 +278,21 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
 
-   <script>
-    // Función para abrir el modal
-    function abrirModal() {
-        document.getElementById('modal').classList.remove('hidden');
-    }
-
-    // Función para cerrar el modal
-    function cerrarModal() {
-        document.getElementById('modal').classList.add('hidden');
-    }
-
-    // Función para manejar la respuesta del servidor
-    function handleServerResponse(response) {
-        if (response.success) {
-            // Si la respuesta es exitosa, redirige a la página indicada en la respuesta
-            window.location.href = response.redirect;
-        } else {
-            // Si hay un error, muestra el mensaje de error (puedes manejarlo de acuerdo a tus necesidades)
-            alert('Error: ' + response.message);
+    <script>
+        // Función para abrir el modal
+        function abrirModal() {
+            document.getElementById('modal').classList.remove('hidden');
         }
-    }
-</script>
+
+        // Función para cerrar el modal
+        function cerrarModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+    </script>
 
 </body>
 

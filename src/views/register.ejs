@@ -79,7 +79,7 @@
                                 class="block w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
                                 <option value="estudiante">Estudiante</option>
                                 <option value="invitado">Invitado</option>
-                        
+
                             </select>
                         </div>
                     </div>
@@ -92,64 +92,34 @@
 
             <p class="mt-10 text-center text-sm text-white">
                 ¿Ya tienes una cuenta?
-                <a href="index.html" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Iniciar
-                    sesión</a>
+                <a href="/" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Iniciar sesion</a>
             </p>
+            
         </div>
     </div>
 
+    <!-- EJS Script para manejar SweetAlert en la página de registro -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const registerForm = document.getElementById('register-form');
-
-            registerForm.addEventListener('submit', async function (event) {
-                event.preventDefault();
-
-                const formData = new URLSearchParams(new FormData(registerForm));
-
-                try {
-                    const response = await fetch('/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: formData.toString(),
-                    });
-
-                    const responseData = await response.json();
-
-                    // Configuración global de SweetAlert con clase personalizada
-                    const swalConfig = {
-                        customClass: {
-                            confirmButton: 'custom-swal-button-class',
-                        },
-                    };
-
-                    if (responseData.success) {
-                        // Mostrar SweetAlert de registro exitoso con el nombre de usuario
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Registro exitoso!',
-                            text: responseData.message,
-                            confirmButtonText: 'OK',
-                            ...swalConfig,
-                        });
-                    } else {
-                        // Si el registro no fue exitoso, mostrar SweetAlert de error
-                        Swal.fire({
-                            icon: 'error',
-                            title: '¡Error!',
-                            text: responseData.message,
-                            ...swalConfig,
-                        });
-                    }
-                } catch (error) {
-                    console.error('Error al enviar la solicitud:', error);
-                    // Manejar otros errores o mostrar un mensaje genérico al usuario
-                }
+    <% if (typeof success !== 'undefined' && success) { %>
+            // Código para éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Registro exitoso!',
+                text: '<%= message %>',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                // Redireccionar u realizar otras acciones después de hacer clic en OK
+                // Por ejemplo, redirigir al usuario a la página de inicio de sesión
+                window.location.href = '/';
             });
-        });
-
+    <% } else if (typeof success !== 'undefined' && !success) { %>
+            // Código para error
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: '<%= message %>'
+            });
+    <% } %>
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
