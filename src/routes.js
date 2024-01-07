@@ -162,6 +162,27 @@ router.get('/download/:id', async (req, res) => {
     }
 });
 
+// Ruta para obtener datos del curso por ID
+router.get('/editar/:id', async (req, res) => {
+    const cursoId = req.params.id;
+
+    try {
+        // Consulta para obtener el curso por ID
+        const [result] = await pool.query('SELECT * FROM cursos WHERE id = ?', [cursoId]);
+
+        if (result && result.length > 0) {
+            const curso = result[0];
+            res.json(curso);
+        } else {
+            res.status(404).json({ error: 'Curso no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al obtener datos del curso:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+
 // Ruta para la página principal
 router.get('/', (req, res) => {
     res.render('index');
