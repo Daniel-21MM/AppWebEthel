@@ -35,7 +35,7 @@
         <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md"
             style="width: 50%">
             <!-- Contenido del formulario -->
-            <form id="cursoForm" class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post">
+            <form id="cursoForm" class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post" enctype="multipart/form-data" >
                 <!-- Nombre del Curso -->
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
@@ -52,9 +52,9 @@
                     </label>
                     <select id="tipoCurso" name="tipoCurso"
                         class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                        <option value="curso">Curso</option>
-                        <option value="certificacion">Certificación</option>
-                        <option value="diplomado">Diplomado</option>
+                        <option value="Curso">Curso</option>
+                        <option value="Certificacion">Certificación</option>
+                        <option value="Diplomado">Diplomado</option>
                     </select>
                 </div>
 
@@ -201,18 +201,30 @@
 
                 </div>
 
-                <% cursos.forEach(curso => { %>
-                    <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
-                        <h4 class="text-white text-2xl font-bold capitalize text-center"><%= curso.nombreCurso %></h4>
-                        <p class="text-white"><%= curso.DuracionCurso %> Horas</p>
-                        <!-- ... otras propiedades del curso ... -->
-                        
+                <% cursos.forEach(curso=> { %>
+                    <div
+                        class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+                        <h3 class="text-white text-2xl font-bold capitalize text-center">
+                            <%= curso.nombreCurso %>
+                        </h3>
+
+
+                        <p class="text-white">Por : <%= curso.Instructor%>
+                        </p>
+                        <p class="text-white">
+                            <%= curso.DuracionCurso %> Horas
+                        </p>
+                        <p class="absolute top-2 text-white/20 inline-flex items-center text-xs">Tipo: <%=
+                                curso.TipoCurso%><span
+                                    class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
+                        </p>
+            
                         <!-- Botones con iconos en dos filas -->
                         <div class="flex flex-col space-y-2 mt-4">
                             <div class="flex space-x-4">
-                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                <a href="/download/<%= curso.id %>" class="text-white hover:text-gray-300 focus:outline-none">
                                     <i class="fas fa-file-pdf"></i>
-                                </button>
+                                </a>
                                 <button class="text-white hover:text-gray-300 focus:outline-none">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -227,14 +239,15 @@
                             </div>
                         </div>
                     </div>
-                <% }); %>
-                
-                
-                
+                    <% }); %>
+
+
+
 
 
             </div>
         </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 

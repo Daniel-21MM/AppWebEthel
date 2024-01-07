@@ -1,6 +1,16 @@
 import express from 'express';
 import { pool } from './db.js';
 import bcrypt from 'bcrypt';
+import path from 'path';
+import fs from 'fs/promises'; // Usamos fs.promises para manejar archivos de forma asincrónica
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import multer from 'multer';
+import { createReadStream } from 'fs';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const router = express.Router();
 
@@ -21,10 +31,10 @@ router.get('/principal', async (req, res) => {
         const cursos = result && result.length > 0 ? result : [];
 
         // Log de la consulta SQL
-        console.log('Consulta SQL:', 'SELECT * FROM cursos');
+        // console.log('Consulta SQL:', 'SELECT * FROM cursos');
 
         // Log del contenido de Cursos
-        console.log('Contenido de Cursos:', cursos);
+        // console.log('Contenido de Cursos:', cursos);
 
         // Renderizar la plantilla con la lista de cursos
         res.render('principal', { cursos });
@@ -33,8 +43,6 @@ router.get('/principal', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
-
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
 router.post('/register', async (req, res) => {
@@ -66,7 +74,7 @@ router.post('/register', async (req, res) => {
 // Ruta para el inicio de sesión (POST)
 router.post('/login', async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const { usuario, contrasena } = req.body;
         const [result] = await pool.query('SELECT * FROM usuarios WHERE usuario = ?', [usuario]);
 
@@ -88,8 +96,11 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+const upload = multer({ dest: 'uploads/' }); // Directorio donde se almacenarán temporalmente los archivos
+
 // Ruta para manejar el formulario de cursos (POST)
-router.post('/guardarCurso', async (req, res) => {
+router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => {
     try {
         const {
             nombreCurso,
@@ -98,18 +109,21 @@ router.post('/guardarCurso', async (req, res) => {
             fechaInicio,
             instructor,
             tipoInstitucion,
-            archivoCurso,
         } = req.body;
 
-        // Convierte el archivo PDF de base64 a un Buffer
-        const documentPath = Buffer.from(archivoCurso, 'base64');
+        const timestamp = Date.now(); // Sello de tiempo en milisegundos
+        const pdfFileName = `Curso_${timestamp}.pdf`; // Nombre de archivo único
 
-        // Insertar el nuevo curso en la base de datos
+        const pdfFilePath = path.join(__dirname, 'docs', pdfFileName);
+
+        // Mover el archivo a la carpeta "docs"
+        await fs.rename(req.file.path, pdfFilePath);
+
+        // Insertar el nuevo curso en la base de datos con la ruta del archivo PDF
         await pool.query(
             'INSERT INTO cursos (nombreCurso, TipoCurso, DuracionCurso, FechaInicio, Instructor, Lugar, DocumentPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, documentPath]
+            [nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, pdfFilePath]
         );
-
 
         // Después de guardar el curso exitosamente
         res.redirect('/principal?success=true&message=¡Curso guardado exitosamente!');
@@ -119,6 +133,35 @@ router.post('/guardarCurso', async (req, res) => {
         res.redirect('/principal?success=false&message=Error al guardar el curso');
     }
 });
+
+router.get('/download/:id', async (req, res) => {
+    const cursoId = req.params.id;
+
+    try {
+        // Consulta para obtener el curso por ID
+        const [result] = await pool.query('SELECT * FROM cursos WHERE id = ?', [cursoId]);
+
+        if (result && result.length > 0) {
+            const curso = result[0];
+            const pdfFilePath = curso.DocumentPath;
+
+            // Configurar el encabezado para la descarga del archivo
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=curso-${curso.nombreCurso}.pdf`);
+
+            // Crear un flujo de lectura desde el archivo y enviarlo como respuesta
+            const readStream = createReadStream(pdfFilePath);
+            readStream.pipe(res);
+
+        } else {
+            res.status(404).send('Curso no encontrado');
+        }
+    } catch (error) {
+        console.error('Error al descargar el curso:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
 // Ruta para la página principal
 router.get('/', (req, res) => {
     res.render('index');
