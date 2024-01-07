@@ -201,98 +201,38 @@
 
                 </div>
 
-                <div
-                    class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
-                    <img class="w-20 h-20 object-cover object-center rounded-full"
-                        src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="cuisine" />
-                    <h4 class="text-white text-2xl font-bold capitalize text-center">JavaScript</h4>
-                    <p class="text-white">20 Horas</p>
-                    <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
-                            class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
-                    </p>
-
-                    <!-- Botones con iconos en dos filas -->
-                    <div class="flex flex-col space-y-2 mt-4">
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-file-pdf"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                <% cursos.forEach(curso => { %>
+                    <div class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
+                        <h4 class="text-white text-2xl font-bold capitalize text-center"><%= curso.nombreCurso %></h4>
+                        <p class="text-white"><%= curso.DuracionCurso %> Horas</p>
+                        <!-- ... otras propiedades del curso ... -->
+                        
+                        <!-- Botones con iconos en dos filas -->
+                        <div class="flex flex-col space-y-2 mt-4">
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-file-pdf"></i>
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <% }); %>
+                
+                
+                
 
-                <div
-                    class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
-                    <img class="w-20 h-20 object-cover object-center rounded-full"
-                        src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="cuisine" />
-                    <h4 class="text-white text-2xl font-bold capitalize text-center">JavaScript</h4>
-                    <p class="text-white">20 Horas</p>
-                    <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
-                            class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
-                    </p>
 
-                    <!-- Botones con iconos en dos filas -->
-                    <div class="flex flex-col space-y-2 mt-4">
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-file-pdf"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="relative group bg-gray-900 py-10 sm:py-20 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md hover:bg-gray-900/80 hover:smooth-hover">
-                    <img class="w-20 h-20 object-cover object-center rounded-full"
-                        src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="cuisine" />
-                    <h4 class="text-white text-2xl font-bold capitalize text-center">JavaScript</h4>
-                    <p class="text-white">20 Horas</p>
-                    <p class="absolute top-2 text-white inline-flex items-center text-xs">02/01/2024<span
-                            class="ml-2 w-2 h-2 block bg-green-500 rounded-full group-hover:animate-pulse"></span>
-                    </p>
-
-                    <!-- Botones con iconos en dos filas -->
-                    <div class="flex flex-col space-y-2 mt-4">
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-file-pdf"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="flex space-x-4">
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-pencil-alt"></i>
-                            </button>
-                            <button class="text-white hover:text-gray-300 focus:outline-none">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

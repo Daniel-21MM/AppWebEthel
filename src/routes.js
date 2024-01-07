@@ -2,7 +2,6 @@ import express from 'express';
 import { pool } from './db.js';
 import bcrypt from 'bcrypt';
 
-
 const router = express.Router();
 
 // Ruta para la página de inicio de sesión
@@ -15,9 +14,27 @@ router.get('/register', (req, res) => {
 });
 
 // Ruta para la página principal (utilizando principal.ejs)
-router.get('/principal', (req, res) => {
-    res.render('principal');
+router.get('/principal', async (req, res) => {
+    try {
+        // Obtener la lista de cursos desde la base de datos
+        const [result] = await pool.query('SELECT * FROM cursos');
+        const cursos = result && result.length > 0 ? result : [];
+
+        // Log de la consulta SQL
+        console.log('Consulta SQL:', 'SELECT * FROM cursos');
+
+        // Log del contenido de Cursos
+        console.log('Contenido de Cursos:', cursos);
+
+        // Renderizar la plantilla con la lista de cursos
+        res.render('principal', { cursos });
+    } catch (error) {
+        console.error('Error al obtener cursos:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
 });
+
+
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
 router.post('/register', async (req, res) => {
@@ -46,7 +63,6 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 // Ruta para el inicio de sesión (POST)
 router.post('/login', async (req, res) => {
     try {
@@ -72,7 +88,6 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 // Ruta para manejar el formulario de cursos (POST)
 router.post('/guardarCurso', async (req, res) => {
     try {
