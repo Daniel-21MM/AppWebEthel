@@ -1,9 +1,7 @@
-// routes.js
 import express from 'express';
 import { pool } from './db.js';
 import bcrypt from 'bcrypt';
-import fs from 'fs';
-import path from 'path';
+
 
 const router = express.Router();
 
@@ -20,7 +18,6 @@ router.get('/register', (req, res) => {
 router.get('/principal', (req, res) => {
     res.render('principal');
 });
-
 
 // Ruta para manejar el registro de un nuevo usuario (POST)
 router.post('/register', async (req, res) => {
@@ -50,7 +47,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 // Ruta para el inicio de sesión (POST)
 router.post('/login', async (req, res) => {
     try {
@@ -63,15 +59,13 @@ router.post('/login', async (req, res) => {
             const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
             if (passwordMatch) {
-                // Si las credenciales son correctas, enviar una respuesta JSON con éxito y el nombre de usuario
-                // En tu ruta de inicio de sesión (POST)
                 res.render('index', { success: true, message: `¡Bienvenido ${result[0].usuario}!`, redirect: '/principal' });
 
             } else {
                 res.render('index', { success: false, message: '¡Credenciales incorrectas!' });
             }
         } else {
-            res.render('index', { success: false, message: '¡Usuario no encontrado!' });
+            res.render('index', { success: false, message: '¡Usuario no registrado!' });
         }
     } catch (error) {
         console.error(error);
@@ -79,46 +73,37 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
-// Ruta para guardar un curso sin multer
-router.post('/guardarCurso', (req, res) => {
+// Ruta para manejar el formulario de cursos (POST)
+router.post('/guardarCurso', async (req, res) => {
     try {
-        console.log('Entrando en /guardarCurso');
+        const {
+            nombreCurso,
+            tipoCurso,
+            duracionCurso,
+            fechaInicio,
+            instructor,
+            tipoInstitucion,
+            archivoCurso,
+        } = req.body;
 
-        // Obtener datos del formulario
-        const { nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, archivoCurso } = req.body;
+        // Convierte el archivo PDF de base64 a un Buffer
+        const documentPath = Buffer.from(archivoCurso, 'base64');
 
-        // Obtener el contenido del archivo directamente desde la solicitud
-        const documentContent = archivoCurso;
-        console.log('Datos del formulario:', req.body);
-
-        if (!documentContent) {
-            console.log('Error: No se ha proporcionado el contenido del archivo.');
-            return res.status(400).json({ success: false, message: 'Error: No se ha proporcionado el contenido del archivo.' });
-        }
-
-        // Insertar datos en la base de datos
-        pool.query(
+        // Insertar el nuevo curso en la base de datos
+        await pool.query(
             'INSERT INTO cursos (nombreCurso, TipoCurso, DuracionCurso, FechaInicio, Instructor, Lugar, DocumentPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, documentContent],
-            (error, results) => {
-                if (error) {
-                    console.error('Error al insertar en la base de datos:', error);
-                    res.status(500).json({ success: false, message: 'Error interno del servidor' });
-                } else {
-                    console.log('Curso guardado correctamente');
-                    res.json({ success: true, message: 'Curso guardado correctamente', redirect: '/principal.html' });
-                }
-            }
+            [nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, documentPath]
         );
+
+
+        // Después de guardar el curso exitosamente
+        res.redirect('/principal?success=true&message=¡Curso guardado exitosamente!');
     } catch (error) {
-        console.error('Error al procesar la solicitud:', error);
-        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        console.error('Error al guardar el curso:', error);
+        // En caso de error
+        res.redirect('/principal?success=false&message=Error al guardar el curso');
     }
 });
-
-
-
 // Ruta para la página principal
 router.get('/', (req, res) => {
     res.render('index');
