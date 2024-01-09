@@ -423,21 +423,7 @@
         }
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const params = new URLSearchParams(window.location.search);
-            const success = params.get('success');
-            const message = params.get('message');
-
-            if (success !== null) {
-                Swal.fire({
-                    icon: success === 'true' ? 'success' : 'error',
-                    title: success === 'true' ? 'Éxito' : 'Error',
-                    text: message,
-                });
-            }
-        });
-    </script>
+   
     <!-- SWEET ALERT DE CONFIRMACION PARA DESCARGAR EL CURSO-->
     <script>
         // Función para mostrar el SweetAlert y descargar el archivo si el usuario confirma

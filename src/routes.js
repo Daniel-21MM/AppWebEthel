@@ -122,6 +122,7 @@ router.post('/login', async (req, res) => {
 const upload = multer({ dest: 'uploads/' }); // Directorio donde se almacenarán temporalmente los archivos
 
 // Ruta para manejar el formulario de cursos (POST)
+// Ruta para manejar el formulario de cursos (POST)
 router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => {
     try {
         // Verificar si se proporcionó un archivo
@@ -153,13 +154,14 @@ router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => 
         );
 
         // Después de guardar el curso exitosamente
-        res.redirect('/principal?success=true&message=¡Curso guardado exitosamente!');
+        res.redirect('/principal');
     } catch (error) {
         console.error('Error al guardar el curso:', error);
         // En caso de error
         res.redirect('/principal?success=false&message=Error al guardar el curso');
     }
 });
+
 
 
 router.get('/download/:id', async (req, res) => {
