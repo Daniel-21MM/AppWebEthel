@@ -201,8 +201,8 @@
                     </label>
                     <select id="tipoInstitucionEditar" name="tipoInstitucion"
                         class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                        <option value="institucion">Institución</option>
-                        <option value="externo">Externo</option>
+                        <option value="Institucion">Institución</option>
+                        <option value="Externo">Externo</option>
                     </select>
                 </div>
 
@@ -470,17 +470,18 @@
 
                     // Llena el formulario con los datos del curso
                     document.getElementById('nombreCursoEditar').value = curso.nombreCurso;
-                    document.getElementById('tipoCursoEditar').value = curso.TipoCurso;  // <-- PascalCase
-                    document.getElementById('duracionCursoEditar').value = curso.DuracionCurso;  // <-- PascalCase
+                    document.getElementById('tipoCursoEditar').value = curso.TipoCurso; 
+                    document.getElementById('duracionCursoEditar').value = curso.DuracionCurso; 
 
                     // Convertir la fecha al formato "yyyy-MM-dd"
                     const fechaInicio = new Date(curso.FechaInicio);
                     const fechaInicioFormatted = fechaInicio.toISOString().split('T')[0];
 
-                    document.getElementById('fechaInicioEditar').value = fechaInicioFormatted;  // <-- PascalCase
+                    document.getElementById('fechaInicioEditar').value = fechaInicioFormatted; 
 
-                    document.getElementById('instructorEditar').value = curso.Instructor;  // <-- PascalCase
-                    document.getElementById('tipoInstitucionEditar').value = curso.Lugar;  // <-- PascalCase
+                    document.getElementById('instructorEditar').value = curso.Instructor;  
+                    console.log('Lugar:', curso.Lugar);
+                    document.getElementById('tipoInstitucionEditar').value = curso.Lugar; 
 
                     // Abre el modal
                     document.getElementById('modalEditar').classList.remove('hidden');
