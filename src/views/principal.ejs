@@ -297,7 +297,7 @@
                     </svg>
                 </a>
 
-           
+
             </nav>
             <div class="flex items-center flex-row space-x-2 lg:space-x-0 lg:flex-col lg:space-y-2">
                 <a class="text-white p-4 inline-flex justify-center rounded-md hover:bg-gray-800 hover:text-white smooth-hover"
@@ -470,18 +470,18 @@
 
                     // Llena el formulario con los datos del curso
                     document.getElementById('nombreCursoEditar').value = curso.nombreCurso;
-                    document.getElementById('tipoCursoEditar').value = curso.TipoCurso; 
-                    document.getElementById('duracionCursoEditar').value = curso.DuracionCurso; 
+                    document.getElementById('tipoCursoEditar').value = curso.TipoCurso;
+                    document.getElementById('duracionCursoEditar').value = curso.DuracionCurso;
 
                     // Convertir la fecha al formato "yyyy-MM-dd"
                     const fechaInicio = new Date(curso.FechaInicio);
                     const fechaInicioFormatted = fechaInicio.toISOString().split('T')[0];
 
-                    document.getElementById('fechaInicioEditar').value = fechaInicioFormatted; 
+                    document.getElementById('fechaInicioEditar').value = fechaInicioFormatted;
 
-                    document.getElementById('instructorEditar').value = curso.Instructor;  
+                    document.getElementById('instructorEditar').value = curso.Instructor;
                     console.log('Lugar:', curso.Lugar);
-                    document.getElementById('tipoInstitucionEditar').value = curso.Lugar; 
+                    document.getElementById('tipoInstitucionEditar').value = curso.Lugar;
 
                     // Abre el modal
                     document.getElementById('modalEditar').classList.remove('hidden');
