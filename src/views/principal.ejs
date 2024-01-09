@@ -25,6 +25,20 @@
         .swal2-content {
             color: white !important;
         }
+
+        .text-lg {
+            line-height: 3rem;
+        }
+
+        #modalCont {
+            width: 50%;
+        }
+
+        @media screen and (max-width: 800px) {
+            #modalCont {
+                width: 95%;
+            }
+        }
     </style>
 </head>
 
@@ -32,11 +46,11 @@
     <!-- MODAL PARA AGREGAR CURSO-->
     <div id="modal" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
         <!-- Contenido del modal -->
-        <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md"
-            style="width: 50%">
+        <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md">
             <!-- Contenido del formulario -->
             <h1 class="text-2xl mb-10 font-bold">Agregar curso</h1>
-            <form id="cursoForm" class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post" enctype="multipart/form-data">
+            <form id="cursoForm" class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post"
+                enctype="multipart/form-data">
                 <!-- Nombre del Curso -->
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
@@ -93,8 +107,8 @@
                     </label>
                     <select id="tipoInstitucion" name="tipoInstitucion"
                         class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                        <option value="institucion">Institución</option>
-                        <option value="externo">Externo</option>
+                        <option value="Institucion">Institución</option>
+                        <option value="Externo">Externo</option>
                     </select>
                 </div>
 
@@ -126,8 +140,7 @@
     <!-- MODAL PARA EDITAR CURSO -->
     <div id="modalEditar" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
         <!-- Contenido del modal -->
-        <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md"
-            style="width: 50%">
+        <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md">
             <!-- Contenido del formulario -->
             <h1 class="text-2xl mb-10 font-bold">Editar curso</h1>
             <form id="editCursoForm" class="grid grid-cols-6 gap-4" action="/editarCurso" method="post"
@@ -218,6 +231,56 @@
         </div>
     </div>
 
+    <!-- Modal para detalles del curso -->
+    <div id="modalDetalles" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
+        <!-- Contenido del modal -->
+        <div id="modalCont"
+            class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-11/12 md:w-2/3 lg:w-1/2 xl:w-1/3 rounded-md">
+            <!-- Contenido del curso -->
+            <h1 class="text-2xl mb-6 font-bold text-white">Detalles del curso</h1>
+            <div class="bg-gray-900 p-6 rounded-md">
+                <table class="table-auto w-full">
+                    <tbody>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">ID Curso</td>
+                            <td id="idCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Nombre del curso</td>
+                            <td id="nombreCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Instructor</td>
+                            <td id="instructorDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Tipo de curso</td>
+                            <td id="tipoCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Duración del curso</td>
+                            <td id="duracionCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Lugar del curso</td>
+                            <td id="lugarCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <tr class="mb-4">
+                            <td class="text-lg font-medium text-white">Fecha del curso</td>
+                            <td id="fechaCursoDetalles" class="mt-1 font-medium text-lg text-gray-300"></td>
+                        </tr>
+                        <!-- Agregar más filas según sea necesario -->
+                    </tbody>
+                </table>
+                <!-- Botón para cerrar el modal -->
+                <button type="button" onclick="cerrarModalDetalles()"
+                    class="absolute top-0 right-0 mt-4 mr-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- component -->
     <div
         class="bg-gray-800 flex-1 flex flex-col space-y-5 lg:space-y-0 lg:flex-row lg:space-x-10 w-full h-full max-w-6xl sm:p-6 sm:my-2 sm:mx-4 sm:rounded-2xl">
@@ -234,15 +297,7 @@
                     </svg>
                 </a>
 
-                <a class="text-white p-4 inline-flex justify-center rounded-md hover:bg-gray-800 hover:text-white smooth-hover"
-                    href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </a>
+           
             </nav>
             <div class="flex items-center flex-row space-x-2 lg:space-x-0 lg:flex-col lg:space-y-2">
                 <a class="text-white p-4 inline-flex justify-center rounded-md hover:bg-gray-800 hover:text-white smooth-hover"
@@ -321,9 +376,11 @@
                                     <i class="fas fa-file-pdf"></i>
                                 </a>
 
-                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                <button onclick="abrirModalDetalles(<%= JSON.stringify(curso) %>)"
+                                    class="text-white hover:text-gray-300 focus:outline-none">
                                     <i class="fas fa-eye"></i>
                                 </button>
+
                             </div>
                             <div class="flex space-x-4">
                                 <button onclick="abrirModalEditar('<%= curso.id %>')"
@@ -331,7 +388,8 @@
                                     <i class="fas fa-pencil-alt"></i>
                                 </button>
 
-                                <button class="text-white hover:text-gray-300 focus:outline-none">
+                                <button onclick="eliminarCurso('<%= curso.id %>')"
+                                    class="text-white hover:text-gray-300 focus:outline-none">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -451,6 +509,83 @@
 
 
     </script>
+    <!-- ABRIR EL MODAL DE DETALLES-->
+
+    <script>
+        // Función para formatear la fecha
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        }
+
+        // Función para abrir el modal
+        function abrirModalDetalles(curso) {
+            document.getElementById('modalDetalles').classList.remove('hidden');
+
+            // Formatea la fecha y actualiza el contenido del modal con la información del curso
+            document.getElementById('idCursoDetalles').innerText = curso.id;
+            document.getElementById('nombreCursoDetalles').innerText = curso.nombreCurso;
+            document.getElementById('instructorDetalles').innerText = curso.Instructor;
+            document.getElementById('tipoCursoDetalles').innerText = curso.TipoCurso;
+            document.getElementById('duracionCursoDetalles').innerText = `${curso.DuracionCurso} horas`;
+            document.getElementById('lugarCursoDetalles').innerText = curso.Lugar;
+            document.getElementById('fechaCursoDetalles').innerText = formatDate(curso.FechaInicio);
+        }
+
+        // Función para cerrar el modal
+        function cerrarModalDetalles() {
+            document.getElementById('modalDetalles').classList.add('hidden');
+        }
+    </script>
+
+    <!-- SCRIPT PARA ELIMINAR EL REGISTRO DEL CURSO-->
+    <script>
+        function eliminarCurso(cursoId) {
+            // Mostrar SweetAlert para confirmar la eliminación
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción eliminará el curso y no se puede deshacer',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hacer una solicitud AJAX para eliminar el curso
+                    fetch(`/eliminarCurso/${cursoId}`, {
+                        method: 'POST',
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Mostrar SweetAlert para informar sobre la eliminación exitosa
+                                Swal.fire({
+                                    title: '¡Eliminado!',
+                                    text: 'El curso ha sido eliminado exitosamente.',
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    // Puedes recargar la página o actualizar la lista de cursos, según tus necesidades
+                                    location.reload(); // Recargar la página
+                                });
+                            } else {
+                                // Mostrar SweetAlert en caso de error
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: `Error al eliminar el curso: ${data.message}`,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error en la solicitud AJAX:', error);
+                        });
+                }
+            });
+        }
+    </script>
+
 
 </body>
 

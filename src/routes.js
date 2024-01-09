@@ -44,6 +44,28 @@ router.get('/principal', async (req, res) => {
     }
 });
 
+// Ruta para la página principal (utilizando principal.ejs)
+router.get('/principal/:id', async (req, res) => {
+    const cursoId = req.params.id;
+
+    try {
+        // Obtener un curso específico desde la base de datos
+        const [result] = await pool.query('SELECT * FROM cursos WHERE id = ?', [cursoId]);
+
+        if (result && result.length > 0) {
+            const curso = result[0];
+            // Renderizar la plantilla con el curso específico
+            res.render('principal', { curso });
+        } else {
+            res.status(404).json({ error: 'Curso no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al obtener curso:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+    }
+});
+
+
 // Ruta para manejar el registro de un nuevo usuario (POST)
 router.post('/register', async (req, res) => {
     try {
@@ -185,6 +207,34 @@ router.get('/editar/:id', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener datos del curso:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
+    }
+});
+
+// Ruta para eliminar un curso por ID
+router.post('/eliminarCurso/:id', async (req, res) => {
+    const cursoId = req.params.id;
+
+    try {
+        // Consulta para obtener la ruta del archivo PDF antes de eliminar el curso
+        const [result] = await pool.query('SELECT DocumentPath FROM cursos WHERE id = ?', [cursoId]);
+
+        if (result && result.length > 0) {
+            const pdfFilePath = result[0].DocumentPath;
+
+            // Eliminar el curso de la base de datos
+            await pool.query('DELETE FROM cursos WHERE id = ?', [cursoId]);
+
+            // Eliminar el archivo PDF asociado
+            await fs.unlink(pdfFilePath);
+
+            // Enviar una respuesta indicando éxito
+            res.json({ success: true, message: 'Curso eliminado exitosamente' });
+        } else {
+            res.status(404).json({ success: false, message: 'Curso no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al eliminar el curso:', error);
+        res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
 
