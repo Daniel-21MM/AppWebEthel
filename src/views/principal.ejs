@@ -414,30 +414,36 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, guardar curso',
                 cancelButtonText: 'Cancelar'
-            }).then((result) => {
+            }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // Si el usuario hace clic en "Sí, guardar curso", enviar el formulario
-                    document.getElementById('cursoForm').submit();
+                    try {
+                        // Enviar el formulario
+                        document.getElementById('cursoForm').submit();
+                    } catch (error) {
+                        // Manejar errores
+                        console.error('Error al enviar el formulario:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Hubo un problema al intentar guardar el curso. Por favor, inténtalo de nuevo.',
+                        });
+                    }
+                } else {
+                    // El usuario eligió "Cancelar" o hubo algún problema
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Acción cancelada',
+                        text: 'No se ha guardado el curso.',
+                    });
                 }
             });
         }
     </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const params = new URLSearchParams(window.location.search);
-            const success = params.get('success');
-            const message = params.get('message');
 
-            if (success !== null) {
-                Swal.fire({
-                    icon: success === 'true' ? 'success' : 'error',
-                    title: success === 'true' ? 'Éxito' : 'Error',
-                    text: message,
-                });
-            }
-        });
-    </script>
+
+
+
     <!-- SWEET ALERT DE CONFIRMACION PARA DESCARGAR EL CURSO-->
     <script>
         // Función para mostrar el SweetAlert y descargar el archivo si el usuario confirma
