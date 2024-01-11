@@ -123,38 +123,40 @@ const upload = multer({ dest: 'uploads/' }); // Directorio donde se almacenarán
 
 router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => {
     try {
+        // Verificar si se proporcionó un archivo
         if (!req.file) {
             return res.redirect('/principal?success=false&message=No se proporcionó un archivo');
         }
 
-        const repeatCount = 100; // Número de repeticiones
-        for (let i = 0; i < repeatCount; i++) {
-            const {
-                nombreCurso,
-                tipoCurso,
-                duracionCurso,
-                fechaInicio,
-                instructor,
-                tipoInstitucion,
-            } = req.body;
+        const {
+            nombreCurso,
+            tipoCurso,
+            duracionCurso,
+            fechaInicio,
+            instructor,
+            tipoInstitucion,
+        } = req.body;
 
-            const timestamp = Date.now();
-            const pdfFileName = `Curso_${timestamp}_${i + 1}.pdf`;
+        const timestamp = Date.now(); // Sello de tiempo en milisegundos
+        const pdfFileName = `Curso_${timestamp}.pdf`; // Nombre de archivo único
 
-            const pdfFilePath = path.join(__dirname, 'docs', pdfFileName);
+        const pdfFilePath = path.join(__dirname, 'docs', pdfFileName);
 
-            await fs.copyFile(req.file.path, pdfFilePath);
+        // Mover el archivo a la carpeta "docs"
+        await fs.rename(req.file.path, pdfFilePath);
 
-            await pool.query(
-                'INSERT INTO cursos (nombreCurso, TipoCurso, DuracionCurso, FechaInicio, Instructor, Lugar, DocumentPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                [`${nombreCurso} - ${i + 1}`, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, pdfFilePath]
-            );
-        }
+        // Insertar el nuevo curso en la base de datos con la ruta del archivo PDF
+        await pool.query(
+            'INSERT INTO cursos (nombreCurso, TipoCurso, DuracionCurso, FechaInicio, Instructor, Lugar, DocumentPath) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [nombreCurso, tipoCurso, duracionCurso, fechaInicio, instructor, tipoInstitucion, pdfFilePath]
+        );
 
-        res.redirect('/principal?success=true&message=¡Cursos guardados exitosamente!');
+        // Después de guardar el curso exitosamente
+        res.redirect('/principal?success=true&message=¡Curso guardado exitosamente!');
     } catch (error) {
         console.error('Error al guardar el curso:', error);
-        res.redirect('/principal?success=false&message=Error al guardar los cursos');
+        // En caso de error
+        res.redirect('/principal?success=false&message=Error al guardar el curso');
     }
 });
 
