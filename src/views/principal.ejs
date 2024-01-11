@@ -404,40 +404,59 @@
 
     <!-- SWEET ALERT DE CONFIRMACION PARA GUARDAR EL CURSO-->
     <script>
-        function confirmarGuardadoCurso() {
+        async function confirmarGuardadoCurso() {
             Swal.fire({
-                title: '¿Estás seguro de guardar el curso?',
+                title: '¿Estás seguro de guardar el curso 100 veces?',
                 text: 'Esta acción no se puede deshacer.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, guardar curso',
+                confirmButtonText: 'Sí, guardar curso 100 veces',
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        // Enviar el formulario
-                        document.getElementById('cursoForm').submit();
+                        const repeatCount = 100; // Número de repeticiones
+                        for (let i = 0; i < repeatCount; i++) {
+                            // Clonar el formulario y cambiar el nombre del curso para simular datos diferentes
+                            const clonedForm = document.createElement('form');
+                            clonedForm.innerHTML = document.getElementById('cursoForm').innerHTML;
+
+                            const nombreCursoInput = clonedForm.querySelector('#nombreCurso');
+                            nombreCursoInput.value = `${nombreCursoInput.value} - ${i + 1}`;
+
+                            // Enviar el formulario clonado
+                            document.body.appendChild(clonedForm); // Agregar el formulario al cuerpo del documento
+                            clonedForm.submit();
+                            document.body.removeChild(clonedForm); // Eliminar el formulario después de enviar
+                            await new Promise(resolve => setTimeout(resolve, 100)); // Esperar un poco entre envíos
+                        }
+
+                        // Mostrar mensaje de éxito después de completar todas las repeticiones
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: `Cursos guardados ${repeatCount} veces exitosamente!`
+                        });
                     } catch (error) {
-                        // Manejar errores
                         console.error('Error al enviar el formulario:', error);
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Hubo un problema al intentar guardar el curso. Por favor, inténtalo de nuevo.',
+                            text: 'Hubo un problema al intentar guardar el curso. Por favor, inténtalo de nuevo.'
                         });
                     }
                 } else {
-                    // El usuario eligió "Cancelar" o hubo algún problema
                     Swal.fire({
                         icon: 'info',
                         title: 'Acción cancelada',
-                        text: 'No se ha guardado el curso.',
+                        text: 'No se han guardado los cursos.'
                     });
                 }
             });
         }
+
     </script>
 
 
