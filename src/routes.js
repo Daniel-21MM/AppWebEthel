@@ -153,6 +153,10 @@ router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => 
 
         const pdfFilePath = path.join(__dirname, 'docs', pdfFileName);
 
+        // Verificar si el directorio existe, de lo contrario, créalo
+        const docsDir = path.join(__dirname, 'docs');
+        await fs.mkdir(docsDir, { recursive: true });
+
         // Mover el archivo a la carpeta "docs"
         await fs.rename(req.file.path, pdfFilePath);
 
