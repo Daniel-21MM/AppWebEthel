@@ -22,6 +22,10 @@ router.get('/login', (req, res) => {
 router.get('/register', (req, res) => {
     res.render('register');
 });
+// Ruta para la página de guardarCurso
+router.get('/guardarCurso', (req, res) => {
+    res.render('agregarCursos'); // Ajusta el nombre de la vista según tu configuración
+});
 
 // Ruta para la página principal (utilizando principal.ejs)
 router.get('/principal', async (req, res) => {
@@ -65,7 +69,6 @@ router.get('/principal/:id', async (req, res) => {
     }
 });
 
-
 // Ruta para manejar el registro de un nuevo usuario (POST)
 router.post('/register', async (req, res) => {
     try {
@@ -93,6 +96,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
 // Ruta para el inicio de sesión (POST)
 router.post('/login', async (req, res) => {
     try {
@@ -105,19 +109,24 @@ router.post('/login', async (req, res) => {
             const passwordMatch = await bcrypt.compare(contrasena, hashedPassword);
 
             if (passwordMatch) {
-                res.render('index', { success: true, message: `¡Bienvenido ${result[0].usuario}!`, redirect: '/principal' });
-
+                // Renderizar la vista 'index' con el mensaje de éxito
+                return res.render('index', { success: true, message: '¡Inicio de sesión exitoso!', redirect: '/guardarCurso' });
             } else {
-                res.render('index', { success: false, message: '¡Credenciales incorrectas!' });
+                // Renderizar la vista 'index' con el mensaje de error
+                return res.render('index', { success: false, message: '¡Credenciales incorrectas!' });
             }
         } else {
-            res.render('index', { success: false, message: '¡Usuario no registrado!' });
+            // Renderizar la vista 'index' con el mensaje de error
+            return res.render('index', { success: false, message: '¡Usuario no registrado!' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: 'Error interno del servidor' });
+        // Renderizar la vista 'index' con el mensaje de error
+        return res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
 
 const upload = multer({ dest: 'uploads/' }); // Directorio donde se almacenarán temporalmente los archivos
 
@@ -152,11 +161,11 @@ router.post('/guardarCurso', upload.single('archivoCurso'), async (req, res) => 
         );
 
         // Después de guardar el curso exitosamente
-        res.redirect('/principal?success=true&message=¡Curso guardado exitosamente!');
+        res.redirect('/guardarCurso?success=true&message=¡Curso guardado exitosamente!');
     } catch (error) {
         console.error('Error al guardar el curso:', error);
         // En caso de error
-        res.redirect('/principal?success=false&message=Error al guardar el curso');
+        res.redirect('/guardarCurso?success=false&message=Error al guardar el curso');
     }
 });
 
@@ -235,7 +244,6 @@ router.post('/eliminarCurso/:id', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
-
 
 // Ruta para la página principal
 router.get('/', (req, res) => {

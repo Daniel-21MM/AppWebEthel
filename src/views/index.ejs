@@ -33,6 +33,7 @@
 <!-- login.ejs -->
 
 <body class="bg-gray-900 text-white">
+
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 text-white">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -69,7 +70,8 @@
 
             <p class="mt-10 text-center text-sm">
                 ¿No tienes cuenta?
-                <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrarme ahora</a>
+                <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Registrarme
+                    ahora</a>
 
             </p>
         </div>
@@ -77,7 +79,7 @@
 
     <!-- EJS Script para manejar SweetAlert -->
     <script>
-        <% if (typeof success !== 'undefined' && success) { %>
+    <% if (typeof success !== 'undefined' && success) { %>
             // Código para éxito
             Swal.fire({
                 icon: 'success',
@@ -86,17 +88,18 @@
                 confirmButtonText: 'OK',
             }).then(() => {
                 // Redireccionar a la vista principal después de hacer clic en OK
-                window.location.href = '<%= redirect || "/principal" %>';
+                window.location.href = '<%= redirect || "/guardarCurso" %>';
             });
-        <% } else if (typeof success !== 'undefined' && !success) { %>
+    <% } else if (typeof success !== 'undefined' && !success) { %>
             // Código para error
             Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
                 text: '<%= message %>'
             });
-        <% } %>
+    <% } %>
     </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 </body>
 

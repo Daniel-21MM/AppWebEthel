@@ -43,99 +43,6 @@
 </head>
 
 <body class="bg-gray-900 text-white">
-    <!-- MODAL PARA AGREGAR CURSO-->
-    <div id="modal" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
-        <!-- Contenido del modal -->
-        <div id="modalCont" class="relative mx-auto my-10 p-6 bg-gray-900 sm:w-90 md:w-80 lg:w-96 rounded-md">
-            <!-- Contenido del formulario -->
-            <h1 class="text-2xl mb-10 font-bold">Agregar curso</h1>
-            <form id="cursoForm" class="grid grid-cols-6 gap-4" action="/guardarCurso" method="post"
-                enctype="multipart/form-data">
-                <!-- Nombre del Curso -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
-                        Nombre del Curso:
-                    </label>
-                    <input id="nombreCurso" name="nombreCurso" type="text" autocomplete="off" required
-                        class="w-full rounded-md border-2 border-gray-800 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6 required">
-                </div>
-
-                <!-- Tipo de Curso -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="tipoCurso">
-                        Tipo de Curso:
-                    </label>
-                    <select id="tipoCurso" name="tipoCurso"
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                        <option value="Curso">Curso</option>
-                        <option value="Certificacion">Certificación</option>
-                        <option value="Diplomado">Diplomado</option>
-                    </select>
-                </div>
-
-                <!-- Duración del Curso -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="duracionCurso">
-                        Duración del Curso:
-                    </label>
-                    <input id="duracionCurso" name="duracionCurso" type="number" autocomplete="off" required
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                </div>
-
-                <!-- Fecha de Inicio -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="fechaInicio">
-                        Fecha de Inicio:
-                    </label>
-                    <input id="fechaInicio" name="fechaInicio" type="date" autocomplete="off" required
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                </div>
-
-                <!-- Quién impartió el Curso -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="instructor">
-                        Instructor:
-                    </label>
-                    <input id="instructor" name="instructor" type="text" autocomplete="off" required
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                </div>
-
-                <!-- Tipo de Institución -->
-                <div class="col-span-6 sm:col-span-3">
-                    <label class="block text-white text-sm font-bold mb-2" for="tipoInstitucion">
-                        Lugar:
-                    </label>
-                    <select id="tipoInstitucion" name="tipoInstitucion"
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                        <option value="Institucion">Institución</option>
-                        <option value="Externo">Externo</option>
-                    </select>
-                </div>
-
-                <!-- Subir Archivo -->
-                <div class="col-span-6">
-                    <label class="block text-white text-sm font-bold mb-2" for="archivoCurso">
-                        Subir Archivo (PDF):
-                    </label>
-                    <input id="archivoCurso" name="archivoCurso" type="file" accept=".pdf" required
-                        class="w-full rounded-md border-0 pl-4 py-1.5 text-white bg-gray-800 focus:ring-0 focus:ring-opacity-0 focus:border-white sm:text-sm sm:leading-6">
-                </div>
-
-                <!-- Botón para Aceptar -->
-                <button type="button" onclick="confirmarGuardadoCurso()"
-                    class="col-span-6 sm:col-span-3 mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Aceptar
-                </button>
-
-
-                <!-- Botón para cerrar el modal -->
-                <button type="button" onclick="cerrarModal()"
-                    class="col-span-6 sm:col-span-3 mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Cerrar
-                </button>
-            </form>
-        </div>
-    </div>
 
     <!-- MODAL PARA EDITAR CURSO -->
     <div id="modalEditar" class="fixed inset-0 z-50 hidden overflow-auto bg-black bg-opacity-50">
@@ -145,6 +52,9 @@
             <h1 class="text-2xl mb-10 font-bold">Editar curso</h1>
             <form id="editCursoForm" class="grid grid-cols-6 gap-4" action="/editarCurso" method="post"
                 enctype="multipart/form-data">
+
+                <input type="hidden" id="cursoIdEditar" name="id">
+
                 <!-- Nombre del Curso -->
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-white text-sm font-bold mb-2" for="nombreCurso">
@@ -216,7 +126,7 @@
                 </div>
 
                 <!-- Botón para Aceptar -->
-                <button type="button"
+                <button type="submit" id="btnAceptar"
                     class="col-span-6 sm:col-span-3 mt-4 bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Aceptar
                 </button>
@@ -301,7 +211,7 @@
             </nav>
             <div class="flex items-center flex-row space-x-2 lg:space-x-0 lg:flex-col lg:space-y-2">
                 <a class="text-white p-4 inline-flex justify-center rounded-md hover:bg-gray-800 hover:text-white smooth-hover"
-                    href="#">
+                    href="/">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" viewBox="0 0 20 20"
                         fill="currentColor">
                         <path fill-rule="evenodd"
@@ -338,16 +248,16 @@
             <div class="mb-10 sm:mb-0 mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
                 <div class="group bg-gray-900/30 py-20 px-4 flex flex-col space-y-2 items-center  rounded-md">
-                    <a onclick="abrirModal()"
+                    <a 
                         class="bg-gray-900 text-white group-hover:text-white  flex w-20 h-20 rounded-full items-center justify-center"
-                        href="#">
+                        href="/guardarCurso">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                         </svg>
                     </a>
-                    <button class="text-white text-center" onclick="abrirModal()">Nuevo curso</button>
+                    <button class="text-white text-center">Nuevo curso</button>
 
                 </div>
 
@@ -402,47 +312,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
-    <!-- SWEET ALERT DE CONFIRMACION PARA GUARDAR EL CURSO-->
-    <script>
-        function confirmarGuardadoCurso() {
-            Swal.fire({
-                title: '¿Estás seguro de guardar el curso?',
-                text: 'Esta acción no se puede deshacer.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, guardar curso',
-                cancelButtonText: 'Cancelar'
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    try {
-                        // Enviar el formulario
-                        document.getElementById('cursoForm').submit();
-                    } catch (error) {
-                        // Manejar errores
-                        console.error('Error al enviar el formulario:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Hubo un problema al intentar guardar el curso. Por favor, inténtalo de nuevo.',
-                        });
-                    }
-                } else {
-                    // El usuario eligió "Cancelar" o hubo algún problema
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Acción cancelada',
-                        text: 'No se ha guardado el curso.',
-                    });
-                }
-            });
-        }
-    </script>
-
-
-
-
+ 
 
     <!-- SWEET ALERT DE CONFIRMACION PARA DESCARGAR EL CURSO-->
     <script>
@@ -467,7 +337,6 @@
 
     <!-- ABRIR EL MODAL DE EDITAR-->
     <script>
-
         function abrirModalEditar(cursoId) {
             fetch(`/editar/${cursoId}`)
                 .then(response => response.json())
@@ -489,19 +358,44 @@
                     console.log('Lugar:', curso.Lugar);
                     document.getElementById('tipoInstitucionEditar').value = curso.Lugar;
 
+                    // Agrega el ID del curso al formulario
+                    document.getElementById('cursoIdEditar').value = cursoId;
+
                     // Abre el modal
                     document.getElementById('modalEditar').classList.remove('hidden');
                 })
                 .catch(error => console.error('Error al obtener datos del curso:', error));
         }
 
+        document.getElementById('editCursoForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita el envío del formulario por defecto
+
+            // Obtiene los datos del formulario
+            const formData = new URLSearchParams(new FormData(this));
+
+            // Realiza la solicitud POST al servidor para actualizar los datos
+            fetch('/editarCurso', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString(),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Datos actualizados:', data);
+                    cerrarModalEditar(); // Cierra el modal después de la actualización
+                })
+                .catch(error => console.error('Error al actualizar datos del curso:', error));
+        });
 
         // Función para cerrar el modal
         function cerrarModalEditar() {
             document.getElementById('modalEditar').classList.add('hidden');
         }
-
     </script>
+
+
     <!-- ABRIR EL MODAL DE AGREGAR-->
     <script>
         // Función para abrir el modal
@@ -517,7 +411,6 @@
 
     </script>
     <!-- ABRIR EL MODAL DE DETALLES-->
-
     <script>
         // Función para formatear la fecha
         function formatDate(dateString) {
