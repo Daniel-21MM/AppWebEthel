@@ -32,7 +32,7 @@ router.get('/guardarCurso', (req, res) => {
 router.get('/principal', async (req, res) => {
     try {
         let pagina = parseInt(req.query.page) || 1;
-        const tamanoPagina = 5;
+        const tamanoPagina = 7;
 
         // Establecer un límite mínimo para la página
         pagina = Math.max(1, pagina);
