@@ -248,8 +248,7 @@
             <div class="mb-10 sm:mb-0 mt-10 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
                 <div class="group bg-gray-900/30 py-20 px-4 flex flex-col space-y-2 items-center  rounded-md">
-                    <a 
-                        class="bg-gray-900 text-white group-hover:text-white  flex w-20 h-20 rounded-full items-center justify-center"
+                    <a class="bg-gray-900 text-white group-hover:text-white  flex w-20 h-20 rounded-full items-center justify-center"
                         href="/guardarCurso">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
@@ -306,13 +305,27 @@
                         </div>
                     </div>
                     <% }); %>
+
+                        <!-- Botones de paginación -->
+                        <div class="flex justify-between mt-4">
+                            <% if (pagina> 1) { %>
+                                <a href="/principal?page=<%= pagina - 1 %>"
+                                    class="text-white hover:text-gray-300 focus:outline-none">Anterior</a>
+                                <% } %>
+
+                                    <% if (cursos.length>= tamanoPagina) { %>
+                                        <a href="/principal?page=<%= pagina + 1 %>"
+                                            class="text-white hover:text-gray-300 focus:outline-none">Siguiente</a>
+                                        <% } %>
+                        </div>
+
             </div>
         </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
- 
+
 
     <!-- SWEET ALERT DE CONFIRMACION PARA DESCARGAR EL CURSO-->
     <script>

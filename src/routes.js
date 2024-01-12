@@ -27,26 +27,30 @@ router.get('/guardarCurso', (req, res) => {
     res.render('agregarCursos'); // Ajusta el nombre de la vista según tu configuración
 });
 
+
 // Ruta para la página principal (utilizando principal.ejs)
 router.get('/principal', async (req, res) => {
     try {
-        // Obtener la lista de cursos desde la base de datos
-        const [result] = await pool.query('SELECT * FROM cursos');
-        const cursos = result && result.length > 0 ? result : [];
+        const pagina = req.query.page || 1;
+        const tamanoPagina = 8;
 
-        // Log de la consulta SQL
-        // console.log('Consulta SQL:', 'SELECT * FROM cursos');
+        // Llamar al procedimiento almacenado para obtener cursos paginados
+        const [result] = await pool.query('CALL ObtenerCursosPaginados(?, ?);', [pagina, tamanoPagina]);
 
-        // Log del contenido de Cursos
-        // console.log('Contenido de Cursos:', cursos);
+        const cursos = result && result.length > 0 ? result[0] : [];
 
-        // Renderizar la plantilla con la lista de cursos
-        res.render('principal', { cursos });
+        // Renderizar la plantilla con la lista de cursos y la información de paginación
+        console.log('Página actual:', pagina);
+        res.render('principal', { cursos, pagina, tamanoPagina });
     } catch (error) {
         console.error('Error al obtener cursos:', error);
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
+
+
 
 // Ruta para la página principal (utilizando principal.ejs)
 router.get('/principal/:id', async (req, res) => {
