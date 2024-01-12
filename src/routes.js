@@ -52,10 +52,6 @@ router.get('/principal', async (req, res) => {
 });
 
 
-
-
-
-
 // Ruta para la página principal (utilizando principal.ejs)
 router.get('/principal/:id', async (req, res) => {
     const cursoId = req.params.id;
