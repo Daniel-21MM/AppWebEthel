@@ -31,8 +31,11 @@ router.get('/guardarCurso', (req, res) => {
 // Ruta para la página principal (utilizando principal.ejs)
 router.get('/principal', async (req, res) => {
     try {
-        const pagina = req.query.page || 1;
-        const tamanoPagina = 7;
+        let pagina = parseInt(req.query.page) || 1;
+        const tamanoPagina = 5;
+
+        // Establecer un límite mínimo para la página
+        pagina = Math.max(1, pagina);
 
         // Llamar al procedimiento almacenado para obtener cursos paginados
         const [result] = await pool.query('CALL ObtenerCursosPaginados(?, ?);', [pagina, tamanoPagina]);
@@ -47,6 +50,7 @@ router.get('/principal', async (req, res) => {
         res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
 
 
 

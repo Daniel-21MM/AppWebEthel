@@ -309,15 +309,16 @@
                         <!-- Botones de paginación -->
                         <div class="flex justify-between mt-4">
                             <% if (pagina> 1) { %>
-                                <a href="/principal?page=<%= pagina - 1 %>"
+                                <a href="/principal?page=<%= parseInt(pagina) - 1 %>"
                                     class="text-white hover:text-gray-300 focus:outline-none">Anterior</a>
                                 <% } %>
 
                                     <% if (cursos.length>= tamanoPagina) { %>
-                                        <a href="/principal?page=<%= pagina + 1 %>"
+                                        <a href="/principal?page=<%= parseInt(pagina) + 1 %>"
                                             class="text-white hover:text-gray-300 focus:outline-none">Siguiente</a>
                                         <% } %>
                         </div>
+
 
             </div>
         </div>
