@@ -32,7 +32,7 @@ router.get('/guardarCurso', (req, res) => {
 router.get('/principal', async (req, res) => {
     try {
         const pagina = req.query.page || 1;
-        const tamanoPagina = 8;
+        const tamanoPagina = 7;
 
         // Llamar al procedimiento almacenado para obtener cursos paginados
         const [result] = await pool.query('CALL ObtenerCursosPaginados(?, ?);', [pagina, tamanoPagina]);
